@@ -45,6 +45,7 @@
 html {
     font-size: var(--font-size-base);
     scroll-behavior: smooth;
+    scroll-padding-top: 70px; /* Offset for fixed navbar */
 }
 
 body {
@@ -71,10 +72,79 @@ img {
     height: auto;
 }
 
+/* ---------- Navigation Bar ---------- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    z-index: 1000;
+    padding: 0.75rem 0;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.nav-logo {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    text-align: center;
+    padding: 0 var(--spacing-lg);
+    box-sizing: border-box;
+}
+
+.nav-logo:hover {
+    color: var(--color-link);
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding-left: var(--spacing-lg);
+}
+
+.nav-link {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--color-link);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-link);
+    transition: width 0.2s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
 /* ---------- Layout ---------- */
 .container {
     display: flex;
     min-height: 100vh;
+    margin-top: 52px; /* Height of navbar */
 }
 
 /* ---------- Sidebar ---------- */
@@ -83,8 +153,8 @@ img {
     padding: var(--spacing-xl) var(--spacing-lg);
     border-right: 1px solid var(--color-border);
     position: sticky;
-    top: 0;
-    height: 100vh;
+    top: 52px; /* Height of navbar */
+    height: calc(100vh - 52px);
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -374,7 +444,7 @@ img {
 }
 
 .pub-venue {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
     font-style: italic;
 }
@@ -522,9 +592,105 @@ img {
 }
 
 /* ---------- Responsive Design ---------- */
+
+/* Hamburger menu button - hidden on desktop */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto;
+}
+
+.hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text);
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: transform 0.2s ease;
+}
+
+.hamburger::before {
+    top: -7px;
+}
+
+.hamburger::after {
+    top: 7px;
+}
+
+/* Hamburger animation when active */
+.nav-toggle.active .hamburger {
+    background-color: transparent;
+}
+
+.nav-toggle.active .hamburger::before {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active .hamburger::after {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
 @media (max-width: 900px) {
+    /* Navbar responsive */
+    .nav-container {
+        flex-wrap: wrap;
+        padding: 0 var(--spacing-md);
+    }
+    
+    .nav-logo {
+        width: auto;
+        padding: 0;
+        text-align: left;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 0;
+        padding: var(--spacing-sm) 0 0 0;
+        border-top: 1px solid var(--color-border);
+        margin-top: var(--spacing-sm);
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-link {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+    
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+
     .container {
         flex-direction: column;
+        margin-top: 52px;
     }
     
     .sidebar {

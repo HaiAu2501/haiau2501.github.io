@@ -8,7 +8,31 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initNewsToggle();
     initLazyLoading();
+    initMobileMenu();
 });
+
+/**
+ * Mobile hamburger menu toggle
+ */
+function initMobileMenu() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (!navToggle || !navLinks) return;
+    
+    navToggle.addEventListener('click', function() {
+        navToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+    
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            navToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+}
 
 /**
  * Smooth scrolling for anchor links
