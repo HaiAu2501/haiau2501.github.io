@@ -367,7 +367,6 @@ img {
 .pub-authors {
     font-size: 0.9rem;
     color: var(--color-text-light);
-    margin-bottom: 1px;
 }
 
 .pub-authors strong {
@@ -378,7 +377,6 @@ img {
     font-size: 0.85rem;
     color: var(--color-text-muted);
     font-style: italic;
-    margin-bottom: 1px;
 }
 
 .pub-tag {
@@ -593,6 +591,10 @@ img {
     
     .section-title {
         font-size: 1.2rem;
+    }
+    
+    .pub-tags-legend {
+        display: none;
     }
 }
 
