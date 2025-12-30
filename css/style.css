@@ -323,7 +323,7 @@ img {
 
 /* ---------- Publications Section ---------- */
 .pub-note {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
     margin-bottom: var(--spacing-md);
 }
@@ -418,10 +418,21 @@ img {
 }
 
 .pub-note-detail {
-    font-size: 0.8rem;
+    /* font-size: 0.8rem; */
     color: var(--color-text-muted);
     display: inline-block;
-    margin-top: 4px;
+}
+
+.icon-check {
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+.awards-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+    font-style: italic;
 }
 
 .pub-keywords {
