@@ -697,9 +697,11 @@ img {
         width: 100%;
         height: auto;
         position: relative;
+        top: auto;
         border-right: none;
         border-bottom: 1px solid var(--color-border);
         padding: var(--spacing-lg);
+        padding-bottom: var(--spacing-xl);
     }
     
     .profile-image {
