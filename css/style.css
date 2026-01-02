@@ -862,7 +862,7 @@ img {
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 8px;
+    /* margin-bottom: 2px; */
     line-height: 1.4;
 }
 
@@ -874,57 +874,26 @@ img {
 
 .ongoing-kw {
     display: inline-block;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 3px;
     white-space: nowrap;
+    color: #9ca3af;
 }
 
-/* Keyword Colors - Consistent across all projects */
-.kw-co {
-    background-color: #dbeafe;
-    color: #1d4ed8;
+.ongoing-kw:first-child {
+    color: #dc2626;
 }
 
-.kw-ec {
-    background-color: #dcfce7;
-    color: #16a34a;
+.ongoing-kw::before {
+    content: "[ ";
+    text-decoration: none;
+    display: inline-block;
 }
 
-.kw-llm {
-    background-color: #fef3c7;
-    color: #d97706;
-}
-
-.kw-tl {
-    background-color: #f3e8ff;
-    color: #7c3aed;
-}
-
-.kw-nco {
-    background-color: #ffe4e6;
-    color: #e11d48;
-}
-
-.kw-mas {
-    background-color: #ffedd5;
-    color: #ea580c;
-}
-
-.kw-cv {
-    background-color: #e0f2fe;
-    color: #0284c7;
-}
-
-.kw-node {
-    background-color: #fce7f3;
-    color: #db2777;
-}
-
-.kw-robot {
-    background-color: #ccfbf1;
-    color: #0d9488;
+.ongoing-kw::after {
+    content: " ]";
+    text-decoration: none;
+    display: inline-block;
 }
 
 .ongoing-date {
