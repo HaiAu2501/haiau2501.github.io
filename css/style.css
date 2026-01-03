@@ -941,6 +941,37 @@ img {
     color: var(--color-text);
     /* margin-bottom: 2px; */
     line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Ongoing Tags */
+.ongoing-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-style: normal;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.tag-theoretical {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.tag-empirical {
+    background-color: #ffedd5;
+    color: #ea580c;
+}
+
+.tag-conceptual {
+    background-color: #e7d4c0;
+    color: #78350f;
 }
 
 .ongoing-keywords {
@@ -957,7 +988,7 @@ img {
     color: #9ca3af;
 }
 
-.ongoing-kw:first-child {
+.ongoing-tag + .ongoing-kw {
     color: #dc2626;
 }
 
