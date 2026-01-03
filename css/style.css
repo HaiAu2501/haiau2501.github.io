@@ -196,8 +196,27 @@ img {
     font-size: 0.85rem;
     color: var(--color-text-muted);
     text-align: center;
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 0.5rem;
     font-style: italic;
+}
+
+.title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+}
+
+.title-badge .icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
 .title {
@@ -211,31 +230,44 @@ img {
     font-size: 0.85rem;
     color: var(--color-text-muted);
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 }
 
 /* Contact Info */
 .contact-info {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
 }
 
 .contact-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-xs);
+    width: 48px;
+    height: 48px;
     font-size: 0.85rem;
     color: var(--color-text-light);
-    transition: color 0.2s ease;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .contact-item:hover {
     color: var(--color-text);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-text-muted);
+}
+
+.contact-item:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .contact-item .icon {
@@ -259,22 +291,39 @@ img {
 /* CV Button */
 .cv-download {
     text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .btn-cv {
-    display: inline-block;
-    padding: var(--spacing-xs) var(--spacing-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    /* Width = 4 icons (48px each) + 3 gaps (16px each) = 240px */
+    width: 240px;
+    padding: 12px var(--spacing-md);
     background-color: var(--color-accent);
     color: var(--color-bg);
     font-size: 0.85rem;
     font-weight: 500;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    border-radius: 10px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-cv .icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 .btn-cv:hover {
     background-color: var(--color-accent-hover);
     color: var(--color-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* ---------- Main Content ---------- */
@@ -733,12 +782,14 @@ img {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: var(--spacing-md);
+        gap: var(--spacing-sm);
         flex-wrap: wrap;
     }
     
     .contact-item {
-        padding: 0.5rem;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
     }
     
     .contact-item span {
@@ -746,8 +797,13 @@ img {
     }
     
     .contact-item .icon {
-        width: 24px;
-        height: 24px;
+        width: 22px;
+        height: 22px;
+    }
+    
+    /* CV button width = 4 icons (44px) + 3 gaps (16px) = 224px */
+    .btn-cv {
+        width: 224px;
     }
     
     .content {
@@ -791,6 +847,27 @@ img {
     
     .name {
         font-size: 1.3rem;
+    }
+    
+    .contact-info {
+        gap: 10px;
+    }
+    
+    /* CV button width = 4 icons (42px) + 3 gaps (10px) = 198px */
+    .btn-cv {
+        width: 198px;
+        padding: 10px var(--spacing-sm);
+    }
+    
+    .contact-item {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+    }
+    
+    .contact-item .icon {
+        width: 20px;
+        height: 20px;
     }
     
     .section-title {
