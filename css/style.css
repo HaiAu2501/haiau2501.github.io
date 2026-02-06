@@ -918,8 +918,8 @@ img {
 
 .ongoing-number {
     flex-shrink: 0;
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -928,6 +928,7 @@ img {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-weight: 700;
     color: var(--color-text-light);
+    font-size: 0.95rem;
 }
 
 .ongoing-content {
@@ -1016,14 +1017,16 @@ img {
 /* Responsive for Ongoing Section */
 @media (max-width: 768px) {
     .ongoing-item {
-        flex-direction: column;
-        gap: var(--spacing-xs);
-        padding: var(--spacing-md);
-        text-align: center;
+        flex-direction: row;
+        gap: 12px;
+        padding: 12px 16px;
+        align-items: center;
     }
     
     .ongoing-number {
-        display: none;
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
     }
     
     .ongoing-date {
@@ -1031,21 +1034,33 @@ img {
     }
     
     .ongoing-content {
+        flex: 1;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        gap: 4px;
     }
     
     .ongoing-title {
-        text-align: center;
+        text-align: left;
+        font-size: 0.95rem;
+        margin-bottom: 0;
     }
     
     .ongoing-keywords {
-        justify-content: center;
+        justify-content: flex-start;
     }
     
-    /* Chỉ hiện keyword đầu tiên */
-    .ongoing-kw:not(:first-child) {
+    /* Chỉ hiện tag và keyword đầu tiên (giữ nguyên text) */
+    .ongoing-tag {
+        display: inline-block;
+    }
+    
+    .ongoing-kw:nth-of-type(2) {
+        display: inline-block;
+    }
+    
+    .ongoing-kw:nth-of-type(n+3) {
         display: none;
     }
 }
