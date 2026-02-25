@@ -152,5 +152,4 @@ function updateLastModified() {
             `Last updated: ${formatted}.`
         );
     }
-}   }
-}
+}   
