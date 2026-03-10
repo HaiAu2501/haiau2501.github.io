@@ -676,6 +676,11 @@ img {
     color: #4f46e5;
 }
 
+.tag-preprint {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
 .tag-history {
     background-color: #f3f4f6;
     color: #374151;
