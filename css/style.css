@@ -576,6 +576,10 @@ img {
     margin-bottom: var(--spacing-md);
 }
 
+.pub-note p {
+    margin-bottom: 4px;
+}
+
 .equal-star {
     color: #dc2626;
     font-style: normal;
@@ -755,11 +759,18 @@ img {
     border-radius: 3px;
     color: var(--color-text-light);
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .pub-link:hover {
     background-color: var(--color-accent);
     color: var(--color-bg);
+}
+
+.pub-link-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    min-width: 0;
 }
 
 /* Tag inside pub-links */
@@ -770,6 +781,7 @@ img {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
 }
 
 /* ---------- Awards Section ---------- */
