@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initNewsToggle();
     initLazyLoading();
     initMobileMenu();
+    initPublicationAccordion();
 });
 
 /**
@@ -124,6 +125,77 @@ function initLazyLoading() {
         document.querySelectorAll('img[data-src]').forEach(img => {
             imageObserver.observe(img);
         });
+    }
+}
+
+function initPublicationAccordion() {
+    const items = document.querySelectorAll('.pub-item');
+    if (!items.length) return;
+
+    const mobileQuery = window.matchMedia('(max-width: 900px)');
+
+    function placeDetailsForViewport(item, isMobile) {
+        const content = item.querySelector('.pub-content');
+        const details = item.querySelector('.pub-details') || item.nextElementSibling;
+        if (!content || !details || !details.classList.contains('pub-details')) return;
+
+        if (isMobile) {
+            if (details.parentElement === content) {
+                item.insertAdjacentElement('afterend', details);
+            }
+            details.classList.add('pub-details-mobile');
+        } else {
+            if (details.parentElement !== content) {
+                content.appendChild(details);
+            }
+            details.classList.remove('pub-details-mobile');
+            details.hidden = false;
+        }
+    }
+
+    function syncAccordionState() {
+        items.forEach(item => {
+            const toggle = item.querySelector('.pub-toggle');
+            const details = item.querySelector('.pub-details') || item.nextElementSibling;
+            if (!toggle) return;
+
+            if (mobileQuery.matches) {
+                const expanded = item.classList.contains('pub-expanded');
+                placeDetailsForViewport(item, true);
+                toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                if (details && details.classList.contains('pub-details')) {
+                    details.hidden = !expanded;
+                }
+            } else {
+                item.classList.remove('pub-expanded');
+                placeDetailsForViewport(item, false);
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+
+    items.forEach(item => {
+        const toggle = item.querySelector('.pub-toggle');
+        if (!toggle) return;
+
+        toggle.addEventListener('click', function() {
+            if (!mobileQuery.matches) return;
+            item.classList.toggle('pub-expanded');
+            const expanded = item.classList.contains('pub-expanded');
+            const details = item.querySelector('.pub-details') || item.nextElementSibling;
+            toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            if (details && details.classList.contains('pub-details')) {
+                details.hidden = !expanded;
+            }
+        });
+    });
+
+    syncAccordionState();
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', syncAccordionState);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(syncAccordionState);
     }
 }
 
