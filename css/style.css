@@ -159,6 +159,12 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.sidebar-visual,
+.sidebar-meta {
+    display: contents;
 }
 
 .profile-image {
@@ -976,18 +982,73 @@ img {
         border-right: none;
         border-bottom: 1px solid var(--color-border);
         padding: var(--spacing-lg);
-        padding-bottom: var(--spacing-xl);
+        padding-bottom: var(--spacing-lg);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        align-items: center;
+    }
+
+    .sidebar-visual {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        grid-column: 1;
+        width: 100%;
+        padding-right: 0.2rem;
+        padding-left: 0.9rem;
+    }
+
+    .sidebar-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        grid-column: 2;
+        min-width: 0;
+        width: 100%;
+        height: 100%;
+        padding-left: 0.25rem;
+        gap: 0.7rem;
     }
     
     .profile-image {
-        width: 150px;
-        height: 150px;
+        width: 100%;
+        max-width: 220px;
+        aspect-ratio: 1 / 1;
+        height: auto;
+        margin-bottom: 0.6rem;
+        border-radius: 18px;
     }
     
     /* Name displays on one line in mobile */
     .name .name-first,
     .name .name-last {
         display: inline;
+    }
+
+    .name {
+        text-align: center;
+        margin-bottom: 0.1rem;
+        width: 100%;
+    }
+
+    .nickname {
+        text-align: center;
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .title-badge {
+        margin-bottom: 0;
+        width: auto;
+        max-width: 100%;
+    }
+
+    .affiliation {
+        text-align: center;
+        margin-bottom: 0;
+        line-height: 1.35;
     }
     
     .contact-info {
@@ -997,6 +1058,8 @@ img {
         align-items: center;
         gap: var(--spacing-sm);
         flex-wrap: wrap;
+        margin-bottom: 0;
+        width: auto;
     }
     
     .contact-item {
@@ -1015,8 +1078,13 @@ img {
     }
     
     /* CV button width = 4 icons (44px) + 3 gaps (16px) = 224px */
+    .cv-download {
+        justify-content: center;
+        width: auto;
+    }
+
     .btn-cv {
-        width: 224px;
+        width: 210px;
     }
     
     .content {
@@ -1033,12 +1101,55 @@ img {
     }
     
     .timeline-period,
-    .pub-year,
     .news-date,
     .award-year {
         width: auto;
     }
-    
+
+    .pub-item {
+        position: relative;
+        gap: 0.85rem;
+        padding: 1.7rem 1.15rem 1.7rem 1.8rem;
+        border-radius: 18px;
+        margin-top: 0.75rem;
+    }
+
+    .pub-year {
+        position: absolute;
+        top: 0;
+        left: 1.55rem;
+        transform: translateY(-50%);
+        width: auto;
+        min-width: 4.25rem;
+        height: 1.9rem;
+        padding: 0 0.75rem;
+        margin-bottom: 0;
+        z-index: 1;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .pub-title {
+        font-size: 1.02rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .pub-authors,
+    .pub-venue,
+    .pub-keywords,
+    .pub-link-note {
+        font-size: 0.88rem;
+    }
+
+    .pub-links {
+        gap: 0.65rem;
+        align-items: flex-start;
+    }
+
+    .pub-links .pub-tag,
+    .pub-link {
+        white-space: nowrap;
+    }
+
     /* Education Timeline responsive - left-side vertical timeline */
     .edu-timeline {
         padding-left: 36px;
@@ -1096,28 +1207,49 @@ img {
     
     .sidebar {
         padding: var(--spacing-md);
+        padding-bottom: 0.9rem;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 0.5rem;
     }
-    
+
+    .sidebar-visual {
+        padding-right: 0.1rem;
+        padding-left: 0.7rem;
+    }
+
+    .sidebar-meta {
+        padding-left: 0.15rem;
+        gap: 0.55rem;
+    }
+
     .content {
         padding: var(--spacing-md);
     }
     
     .profile-image {
-        width: 120px;
-        height: 120px;
+        max-width: none;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        height: auto;
+        border-radius: 14px;
     }
     
     .name {
-        font-size: 1.3rem;
+        font-size: 1.18rem;
+    }
+
+    .nickname {
+        font-size: 0.78rem;
     }
     
     .contact-info {
-        gap: 10px;
+        gap: 8px;
     }
     
     /* CV button width = 4 icons (42px) + 3 gaps (10px) = 198px */
     .btn-cv {
-        width: 198px;
+        width: 176px;
+        max-width: none;
         padding: 10px var(--spacing-sm);
     }
     
@@ -1134,6 +1266,47 @@ img {
     
     .section-title {
         font-size: 1.2rem;
+    }
+
+    .pub-item {
+        padding: 1.55rem 1rem 1.5rem 1.6rem;
+        gap: 0.75rem;
+        border-radius: 16px;
+        margin-top: 0.65rem;
+    }
+
+    .pub-year {
+        height: 1.8rem;
+        min-width: 4rem;
+        padding: 0 0.7rem;
+        font-size: 0.76rem;
+        left: 1.35rem;
+    }
+
+    .pub-title {
+        font-size: 0.98rem;
+        line-height: 1.4;
+    }
+
+    .pub-tag,
+    .pub-link {
+        font-size: 0.7rem;
+    }
+
+    .pub-tag {
+        padding: 0.22rem 0.48rem;
+    }
+
+    .pub-link {
+        padding: 0.28rem 0.58rem;
+    }
+
+    .pub-links {
+        gap: 0.5rem;
+    }
+
+    .pub-keywords {
+        margin-bottom: 0.7rem;
     }
     
     .pub-tags-legend {
@@ -1300,7 +1473,7 @@ img {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 4px;
+        gap: 2px;
     }
     
     .ongoing-title {
@@ -1311,15 +1484,23 @@ img {
     
     .ongoing-keywords {
         justify-content: flex-start;
+        gap: 4px;
     }
     
     /* Chỉ hiện tag và keyword đầu tiên (giữ nguyên text) */
     .ongoing-tag {
         display: inline-block;
+        font-size: 0.52rem;
+        padding: 1px 4px;
+        letter-spacing: 0.02em;
     }
     
     .ongoing-kw:nth-of-type(2) {
         display: inline-block;
+    }
+
+    .ongoing-kw {
+        font-size: 0.62rem;
     }
     
     .ongoing-kw:nth-of-type(n+3) {
