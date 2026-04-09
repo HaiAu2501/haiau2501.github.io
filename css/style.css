@@ -671,6 +671,12 @@ img {
     display: none;
 }
 
+@media (min-width: 901px) {
+    .pub-mobile-status {
+        display: none !important;
+    }
+}
+
 .pub-title {
     font-size: 1rem;
     font-weight: 500;
@@ -707,12 +713,8 @@ img {
 }
 
 .tag-oral {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     background-color: #fee2e2;
     color: #dc2626;
-    min-width: 5.9rem;
 }
 
 .tag-spotlight {
@@ -726,10 +728,6 @@ img {
 }
 
 .tag-workshop {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 5.9rem;
     background-color: #e0e7ff;
     color: #4f46e5;
 }
@@ -1217,6 +1215,10 @@ img {
         white-space: nowrap;
     }
 
+    .pub-primary-tag {
+        display: none;
+    }
+
     .pub-toggle-icon {
         display: inline-flex;
         align-items: center;
@@ -1432,6 +1434,14 @@ img {
     .pub-tag,
     .pub-link {
         font-size: 0.62rem;
+    }
+
+    .tag-oral,
+    .tag-workshop {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 5.9rem;
     }
 
     .pub-toggle {
