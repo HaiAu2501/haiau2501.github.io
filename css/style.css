@@ -645,7 +645,10 @@ img {
 
 .pub-toggle-main {
     display: block;
+    flex: 1;
     min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .pub-toggle-icon {
@@ -726,6 +729,29 @@ img {
 @media (prefers-reduced-motion: reduce) {
     .pub-title-marquee-track {
         animation: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .pub-title-marquee {
+        overflow: visible;
+        white-space: normal;
+        -webkit-mask-image: none;
+        mask-image: none;
+    }
+
+    .pub-title-marquee-track {
+        display: inline;
+        min-width: 0;
+        animation: none;
+    }
+
+    .pub-title-marquee-track span {
+        display: inline;
+    }
+
+    .pub-title-marquee-track span + span {
+        display: none;
     }
 }
 
