@@ -661,7 +661,10 @@ img {
 }
 
 .pub-details {
-    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.14rem;
+    margin-top: 0.12rem;
 }
 
 .pub-details.pub-details-mobile {
@@ -685,9 +688,9 @@ img {
 .pub-title {
     font-size: 1rem;
     font-weight: 500;
-    margin-bottom: 2px;
+    margin-bottom: 0.12rem;
     color: var(--color-text);
-    line-height: 1.4;
+    line-height: 1.35;
 }
 
 .pub-line-clip {
@@ -709,6 +712,7 @@ img {
 .pub-authors {
     font-size: 0.9rem;
     color: var(--color-text-light);
+    line-height: 1.35;
 }
 
 .pub-authors strong {
@@ -719,6 +723,7 @@ img {
     font-size: 0.8rem;
     color: var(--color-text-muted);
     font-style: italic;
+    line-height: 1.35;
 }
 
 .pub-tag {
@@ -811,7 +816,7 @@ img {
 .pub-keywords {
     font-size: 0.8rem;
     color: var(--color-text-muted);
-    margin-bottom: 4px;
+    line-height: 1.35;
 }
 
 .pub-keywords strong {
@@ -823,6 +828,7 @@ img {
     gap: var(--spacing-sm);
     flex-wrap: wrap;
     align-items: center;
+    margin-top: 0.08rem;
 }
 
 .pub-link {
@@ -1208,7 +1214,7 @@ img {
 
     .pub-title {
         font-size: 1.02rem;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.18rem;
     }
 
     .pub-toggle {
@@ -1258,7 +1264,9 @@ img {
     }
 
     .pub-details.pub-details-mobile {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 0.16rem;
         margin-top: 0.35rem;
         margin-left: 1.8rem;
         padding: 0.1rem 0.1rem 0.2rem 0;
@@ -1442,7 +1450,7 @@ img {
     .pub-title {
         font-size: 0.9rem;
         line-height: 1.38;
-        margin-bottom: 0.28rem;
+        margin-bottom: 0.16rem;
     }
 
     .pub-authors,
