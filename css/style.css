@@ -690,69 +690,15 @@ img {
     line-height: 1.4;
 }
 
-.pub-title-marquee {
-    --marquee-gap: 2.5rem;
+.pub-line-clip {
     display: block;
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
     max-width: 100%;
-    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 88%, transparent 100%);
-    mask-image: linear-gradient(90deg, #000 0%, #000 88%, transparent 100%);
-}
-
-.pub-title-marquee-track {
-    display: inline-flex;
-    gap: var(--marquee-gap);
-    min-width: max-content;
-    animation: pub-title-marquee 18s linear infinite;
-}
-
-.pub-title-marquee-track span {
-    flex: 0 0 auto;
-}
-
-.pub-title-marquee:hover .pub-title-marquee-track {
-    animation-play-state: paused;
-}
-
-@keyframes pub-title-marquee {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(calc(-50% - (var(--marquee-gap) / 2)));
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .pub-title-marquee-track {
-        animation: none;
-    }
-}
-
-@media (max-width: 900px) {
-    .pub-title-marquee {
-        overflow: visible;
-        white-space: normal;
-        -webkit-mask-image: none;
-        mask-image: none;
-    }
-
-    .pub-title-marquee-track {
-        display: inline;
-        min-width: 0;
-        animation: none;
-    }
-
-    .pub-title-marquee-track span {
-        display: inline;
-    }
-
-    .pub-title-marquee-track span + span {
-        display: none;
-    }
+    text-overflow: clip;
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 2rem), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0%, #000 calc(100% - 2rem), transparent 100%);
 }
 
 .pub-authors {
