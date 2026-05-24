@@ -5,12 +5,53 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
+    initThemeToggle();
     initSmoothScroll();
     initNewsToggle();
     initLazyLoading();
     initMobileMenu();
     initPublicationAccordion();
 });
+
+/**
+ * Light/dark theme toggle. Dark is the default theme.
+ */
+function initThemeToggle() {
+    const toggle = document.querySelector('.theme-toggle');
+    if (!toggle) return;
+
+    function getCurrentTheme() {
+        return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    }
+
+    function setTheme(theme) {
+        if (theme === 'light') {
+            document.documentElement.dataset.theme = 'light';
+        } else {
+            delete document.documentElement.dataset.theme;
+        }
+
+        toggle.setAttribute(
+            'aria-label',
+            theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'
+        );
+        toggle.setAttribute(
+            'title',
+            theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'
+        );
+        toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+
+        try {
+            localStorage.setItem('theme', theme);
+        } catch (error) {}
+    }
+
+    setTheme(getCurrentTheme());
+
+    toggle.addEventListener('click', function() {
+        setTheme(getCurrentTheme() === 'light' ? 'dark' : 'light');
+    });
+}
 
 /**
  * Mobile hamburger menu toggle
@@ -80,7 +121,7 @@ function initNewsToggle() {
         toggleBtn.style.cssText = `
             background: none;
             border: none;
-            color: #666;
+            color: var(--color-text-light);
             font-size: 0.85rem;
             cursor: pointer;
             padding: 0.5rem 0;
