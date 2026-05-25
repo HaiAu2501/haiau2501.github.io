@@ -808,7 +808,7 @@ img {
     display: flex;
     flex-direction: column;
     gap: 0.14rem;
-    margin-top: 0.12rem;
+    margin-top: 0.5rem;
 }
 
 .pub-details.pub-details-mobile {
@@ -888,7 +888,6 @@ img {
 .pub-venue {
     font-size: 0.8rem;
     color: var(--color-text-muted);
-    font-style: italic;
     line-height: 1.35;
 }
 
