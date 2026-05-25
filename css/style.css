@@ -934,6 +934,14 @@ img {
     border: 1px dashed #9ca3af;
 }
 
+.pub-tags-legend .pub-tag {
+    font-size: 0.64rem;
+    line-height: 1.2;
+    padding: 1px 5px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
 .pub-note-detail {
     /* font-size: 0.8rem; */
     color: var(--color-text-muted);
@@ -990,15 +998,16 @@ img {
 
 .pub-links {
     display: flex;
-    gap: var(--spacing-sm);
+    gap: 0.45rem;
     flex-wrap: wrap;
     align-items: center;
     margin-top: 0.08rem;
 }
 
 .pub-link {
-    font-size: 0.8rem;
-    padding: 2px 8px;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    padding: 1px 6px;
     background-color: var(--color-bg-light);
     border-radius: 3px;
     color: var(--color-text-light);
@@ -1019,8 +1028,9 @@ img {
 
 /* Tag inside pub-links */
 .pub-links .pub-tag {
-    font-size: 0.8rem;
-    padding: 2px 8px;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    padding: 1px 6px;
     margin-right: 0;
     display: inline-flex;
     align-items: center;
@@ -1656,8 +1666,8 @@ img {
         font-size: 0.62rem;
     }
 
-    .tag-oral,
-    .tag-workshop {
+    .pub-mobile-status.tag-oral,
+    .pub-mobile-status.tag-workshop {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -1684,11 +1694,11 @@ img {
     }
 
     .pub-tag {
-        padding: 0.18rem 0.38rem;
+        padding: 0.1rem 0.32rem;
     }
 
     .pub-link {
-        padding: 0.2rem 0.44rem;
+        padding: 0.12rem 0.34rem;
     }
 
     .pub-links {
