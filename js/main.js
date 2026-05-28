@@ -181,8 +181,8 @@ function initPublicationAccordion() {
         if (!content || !details || !details.classList.contains('pub-details')) return;
 
         if (isMobile) {
-            if (details.parentElement === content) {
-                item.insertAdjacentElement('afterend', details);
+            if (details.parentElement !== content) {
+                content.appendChild(details);
             }
             details.classList.add('pub-details-mobile');
         } else {
