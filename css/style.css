@@ -1394,8 +1394,10 @@ img {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        grid-area: tags;
         gap: 0.42rem;
-        margin-bottom: 0.72rem;
+        margin-top: 0.72rem;
+        margin-bottom: 0;
     }
 
     .pub-mobile-status {
@@ -1414,11 +1416,19 @@ img {
     }
 
     .pub-toggle {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 0.75rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "main icon"
+            "tags icon";
+        align-items: center;
+        column-gap: 0.9rem;
+        row-gap: 0;
         cursor: pointer;
+    }
+
+    .pub-toggle-main {
+        grid-area: main;
     }
 
     .pub-authors,
@@ -1462,13 +1472,15 @@ img {
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        grid-area: icon;
+        align-self: center;
         width: 1.9rem;
         height: 1.9rem;
         border: 1px solid var(--color-border);
         border-radius: 999px;
         color: var(--color-text-light);
         background: var(--color-bg-light);
-        margin-top: 0.05rem;
+        margin-top: 0;
         transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
 
@@ -1663,7 +1675,7 @@ img {
 
     .pub-mobile-tags {
         gap: 0.36rem;
-        margin-bottom: 0.58rem;
+        margin-top: 0.58rem;
     }
 
     .pub-title {
@@ -1700,7 +1712,7 @@ img {
     }
 
     .pub-toggle {
-        gap: 0.55rem;
+        column-gap: 0.7rem;
     }
 
     .pub-toggle-icon {
