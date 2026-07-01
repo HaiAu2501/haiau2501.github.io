@@ -882,6 +882,14 @@ img {
     color: var(--color-text);
 }
 
+.pub-authors .equal-star {
+    display: inline-block;
+    margin-left: 0.08rem;
+    font-size: 0.62em;
+    line-height: 1;
+    vertical-align: super;
+}
+
 .pub-authors::before {
     content: none;
 }
