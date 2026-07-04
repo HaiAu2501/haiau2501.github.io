@@ -903,6 +903,11 @@ img {
     white-space: nowrap;
 }
 
+.author-separator {
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
 .pub-venue {
     font-size: 0.8rem;
     color: var(--color-text-muted);
