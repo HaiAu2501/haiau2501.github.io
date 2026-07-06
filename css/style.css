@@ -535,6 +535,8 @@ img {
     width: 80px;
     color: var(--color-text-muted);
     font-size: 0.85rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-variant-numeric: tabular-nums;
 }
 
 .news-content {
