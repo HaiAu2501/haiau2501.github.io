@@ -1066,6 +1066,491 @@ img {
     gap: 0;
 }
 
+/* ---------- Research Lineage: edge rail + in-place view swap ---------- */
+
+/* Width of one side gutter next to the centered content column. */
+:root {
+    --gutter-width: calc((100% - var(--sidebar-width) - var(--content-max-width)) / 2);
+}
+
+/* Dark capsule: same language as the theme toggle - surface capsule,
+   thin border, muted vertical label, red arrow disc as the single accent. */
+.lineage-edge {
+    position: fixed;
+    z-index: 950;
+    top: 50%;
+    /* Dead center between the end of the content text (content box minus its
+       inner padding) and the right screen edge; clamped near the edge when
+       that gap gets too narrow to hold the button. */
+    left: min(calc(100% - (var(--gutter-width) + var(--spacing-xl)) / 2 - 1.35rem), calc(100% - 3.1rem));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    width: 2.7rem;
+    padding: 0.95rem 0 0.55rem;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-surface);
+    box-shadow: 0 10px 26px var(--color-shadow-soft);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) translateX(14px);
+    transition:
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.35s ease,
+        visibility 0.35s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.lineage-edge.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%);
+}
+
+.lineage-edge:hover,
+.lineage-edge:focus-visible {
+    border-color: color-mix(in srgb, var(--color-motion-red) 45%, var(--color-border));
+    box-shadow:
+        0 14px 30px var(--color-shadow-strong),
+        0 0 22px color-mix(in srgb, var(--color-motion-red) 16%, transparent);
+}
+
+.lineage-edge:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+
+.lineage-edge-label {
+    color: var(--color-motion-red);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transition: color 0.25s ease;
+}
+
+.lineage-edge:hover .lineage-edge-label,
+.lineage-edge:focus-visible .lineage-edge-label {
+    color: var(--color-link-hover);
+}
+
+.lineage-edge-arrow {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 1.85rem;
+    height: 1.85rem;
+    color: var(--color-motion-ink);
+    border-radius: 7px;
+    background: var(--color-motion-red);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-motion-red) 35%, transparent);
+    transition: transform 0.25s ease;
+}
+
+.lineage-edge:hover .lineage-edge-arrow {
+    transform: scale(1.07);
+}
+
+.lineage-edge-arrow svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lineage-edge:hover .lineage-edge-arrow svg {
+    transform: translateX(-1.5px);
+}
+
+/* Lineage view active: the arrow simply flips direction. */
+body.lineage-mode .lineage-edge .lineage-edge-arrow svg {
+    transform: rotate(180deg);
+}
+
+body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
+    transform: rotate(180deg) translateX(-2px);
+}
+
+/* In-place swap between the publication list and the lineage map.
+   While the height animates, clip only below the stage (negative left inset
+   keeps the lineage date column in the left margin visible the whole time). */
+.publication-view-stage {
+    position: relative;
+    width: 100%;
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.publication-view-stage.is-animating {
+    clip-path: inset(0 0 0 -120px);
+}
+
+.publication-view-panel[hidden] {
+    display: none !important;
+}
+
+.publication-lineage-panel {
+    padding-top: 0.05rem;
+}
+
+.view-leave {
+    animation: lineageViewOut 0.24s ease both;
+}
+
+.view-enter {
+    animation: lineageViewIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes lineageViewOut {
+    to {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+}
+
+@keyframes lineageViewIn {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Mobile: compact capsule, arrow disc only. */
+@media (max-width: 900px) {
+    .lineage-edge {
+        gap: 0;
+        width: 2.5rem;
+        padding: 0.3rem 0;
+    }
+
+    .lineage-edge-label {
+        display: none;
+    }
+}
+
+@media print {
+    .lineage-edge {
+        display: none !important;
+    }
+}
+
+.publication-lineage-viewport {
+    overflow-x: auto;
+    scrollbar-color: var(--color-border) transparent;
+    scrollbar-width: thin;
+}
+
+/* Desktop: the month/year column hangs out into the left margin
+   (56px column + 24px gap), so the publication nodes auto-center
+   on the content column. */
+@media (min-width: 901px) {
+    .publication-lineage-viewport {
+        margin-left: -80px;
+    }
+}
+
+.publication-lineage-map {
+    position: relative;
+    display: grid;
+    grid-template-columns: 56px repeat(3, minmax(180px, 1fr));
+    grid-template-rows: repeat(6, 132px);
+    gap: 20px 24px;
+    min-width: 680px;
+    padding: 0.6rem 0 1.25rem;
+    isolation: isolate;
+}
+
+#publication-lineage-connections {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.publication-lineage-date {
+    grid-column: 1;
+    align-self: start;
+    padding-top: 0.9rem;
+    color: var(--color-text-muted);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+}
+
+.publication-lineage-date span {
+    display: block;
+    font-weight: 400;
+    opacity: 0.72;
+}
+
+.publication-lineage-node {
+    position: relative;
+    z-index: 1;
+    align-self: start;
+    width: 100%;
+    min-height: 132px;
+    padding: 0.85rem 0.9rem;
+    color: var(--color-text);
+    text-align: left;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    cursor: pointer;
+    transition: opacity 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.publication-lineage-node:hover,
+.publication-lineage-node:focus-visible,
+.publication-lineage-node.is-active,
+.publication-lineage-node.is-descendant {
+    border-color: color-mix(in srgb, var(--color-link) 42%, var(--color-border));
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-link) 8%, var(--color-bg-light)), var(--color-surface) 80%);
+}
+
+.publication-lineage-node:hover,
+.publication-lineage-node:focus-visible,
+.publication-lineage-node.is-active {
+    z-index: 10;
+}
+
+.publication-lineage-node.is-hidden-branch {
+    opacity: 0.12;
+}
+
+.publication-lineage-node:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.publication-lineage-node-header {
+    display: flex;
+    gap: 0.55rem;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.45rem;
+}
+
+.publication-lineage-topic {
+    color: var(--color-link);
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.publication-lineage-node-date {
+    display: none;
+    flex: 0 0 auto;
+    color: var(--color-text-muted);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.62rem;
+}
+
+.publication-lineage-title {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--color-text);
+    font-size: 0.79rem;
+    font-weight: 500;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.publication-lineage-relation {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 10px);
+    width: 200px;
+    padding: 0.58rem 0.65rem;
+    color: var(--color-text-muted);
+    text-align: left;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-surface);
+    box-shadow: 0 8px 20px var(--color-shadow-soft);
+    font-size: 0.66rem;
+    line-height: 1.45;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-5px, -50%);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.publication-lineage-node:hover .publication-lineage-relation,
+.publication-lineage-node:focus-visible .publication-lineage-relation,
+.publication-lineage-node.is-active .publication-lineage-relation {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, -50%);
+}
+
+.lineage-node-pscr .publication-lineage-relation {
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    transform: translateY(-5px);
+}
+
+.lineage-node-pscr:hover .publication-lineage-relation,
+.lineage-node-pscr:focus-visible .publication-lineage-relation,
+.lineage-node-pscr.is-active .publication-lineage-relation {
+    transform: translateY(0);
+}
+
+.lineage-node-relic .publication-lineage-relation,
+.lineage-node-world .publication-lineage-relation {
+    right: calc(100% + 10px);
+    left: auto;
+    transform: translate(5px, -50%);
+}
+
+.lineage-node-relic:hover .publication-lineage-relation,
+.lineage-node-relic:focus-visible .publication-lineage-relation,
+.lineage-node-relic.is-active .publication-lineage-relation,
+.lineage-node-world:hover .publication-lineage-relation,
+.lineage-node-world:focus-visible .publication-lineage-relation,
+.lineage-node-world.is-active .publication-lineage-relation {
+    transform: translate(0, -50%);
+}
+
+.publication-lineage-star {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 75%;
+    display: block;
+    color: var(--color-motion-champagne);
+    font-size: 1.35rem;
+    line-height: 1;
+    animation: publicationLineageStarFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes publicationLineageStarFloat {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-5deg); }
+    50% { transform: translate(-50%, calc(-50% - 3px)) rotate(4deg); }
+}
+
+.lineage-node-motif { grid-area: 1 / 3; }
+.lineage-node-pscr { grid-area: 2 / 2; }
+.lineage-node-maple { grid-area: 2 / 3; }
+.lineage-node-relic { grid-area: 3 / 4; }
+.lineage-node-b2b { grid-area: 4 / 3; }
+.lineage-node-sleep { grid-area: 5 / 2; }
+.lineage-node-world { grid-area: 6 / 4; }
+
+@media (max-width: 640px) {
+    .publication-lineage-viewport {
+        overflow: visible;
+    }
+
+    .publication-lineage-map {
+        display: flex;
+        min-width: 0;
+        padding: 1.25rem 0;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #publication-lineage-connections,
+    .publication-lineage-date {
+        display: none;
+    }
+
+    .publication-lineage-node {
+        min-height: 0;
+        order: var(--lineage-mobile-order);
+    }
+
+    .publication-lineage-relation,
+    .lineage-node-pscr .publication-lineage-relation,
+    .lineage-node-relic .publication-lineage-relation,
+    .lineage-node-world .publication-lineage-relation {
+        position: static;
+        display: block;
+        overflow: hidden;
+        width: auto;
+        max-height: 0;
+        margin-top: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4px);
+        transition: max-height 0.2s ease, margin-top 0.2s ease, opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    }
+
+    .publication-lineage-node:hover .publication-lineage-relation,
+    .publication-lineage-node:focus-visible .publication-lineage-relation,
+    .publication-lineage-node.is-active .publication-lineage-relation,
+    .lineage-node-pscr:hover .publication-lineage-relation,
+    .lineage-node-pscr:focus-visible .publication-lineage-relation,
+    .lineage-node-pscr.is-active .publication-lineage-relation,
+    .lineage-node-relic:hover .publication-lineage-relation,
+    .lineage-node-relic:focus-visible .publication-lineage-relation,
+    .lineage-node-relic.is-active .publication-lineage-relation,
+    .lineage-node-world:hover .publication-lineage-relation,
+    .lineage-node-world:focus-visible .publication-lineage-relation,
+    .lineage-node-world.is-active .publication-lineage-relation {
+        max-height: 7rem;
+        margin-top: 0.62rem;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .lineage-node-motif { --lineage-mobile-order: 1; }
+    .lineage-node-pscr { --lineage-mobile-order: 2; }
+    .lineage-node-maple { --lineage-mobile-order: 3; }
+    .lineage-node-relic { --lineage-mobile-order: 4; }
+    .lineage-node-b2b { --lineage-mobile-order: 5; }
+    .lineage-node-sleep { --lineage-mobile-order: 6; }
+    .lineage-node-world { --lineage-mobile-order: 7; }
+
+    .publication-lineage-node-date {
+        display: inline;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lineage-edge,
+    .lineage-edge-label,
+    .lineage-edge-arrow,
+    .lineage-edge-arrow svg,
+    .publication-view-stage,
+    .publication-lineage-node,
+    .publication-lineage-relation {
+        transition: none;
+    }
+
+    .view-leave,
+    .view-enter {
+        animation: none;
+    }
+
+    .publication-lineage-star {
+        animation: none;
+        transform: translate(-50%, -50%);
+    }
+}
+
 .pub-year-heading {
     display: flex;
     align-items: center;

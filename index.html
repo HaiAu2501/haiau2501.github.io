@@ -276,6 +276,8 @@
             <!-- Publications Section -->
             <section id="publications" class="section">
                 <h2 class="section-title">Publications</h2>
+                <div class="publication-view-stage" id="publication-view-stage">
+                    <div class="publication-view-panel publication-list-panel" data-publication-view="list">
                 <div class="publication-metrics" aria-label="Publication metrics">
                     <div class="metric-card metric-card-red"><strong>07</strong><span>Papers</span></div>
                     <div class="metric-card metric-card-champagne"><strong>7/7</strong><span>First author</span></div>
@@ -525,6 +527,67 @@
 
                     <!-- Add more publications here -->
                 </div>
+                    </div>
+
+                    <div class="publication-view-panel publication-lineage-panel" data-publication-view="lineage" hidden aria-hidden="true">
+                        <div class="publication-lineage-viewport">
+                            <div class="publication-lineage-map" id="publication-lineage-map">
+                                <canvas id="publication-lineage-connections" aria-hidden="true"></canvas>
+
+                                <div class="publication-lineage-date" style="grid-row: 1">AUG<span>2025</span></div>
+                                <div class="publication-lineage-date" style="grid-row: 2">MAR<span>2026</span></div>
+                                <div class="publication-lineage-date" style="grid-row: 3">APR<span>2026</span></div>
+                                <div class="publication-lineage-date" style="grid-row: 4">MAY<span>2026</span></div>
+                                <div class="publication-lineage-date" style="grid-row: 5">JUN<span>2026</span></div>
+                                <div class="publication-lineage-date" style="grid-row: 6">JUL<span>2026</span></div>
+
+                                <button class="publication-lineage-node lineage-node-motif" type="button" data-lineage-id="motif">
+                                    <span class="publication-lineage-star" aria-label="Highlighted publication">★</span>
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">Multi-Strategy Optimization</span><span class="publication-lineage-node-date">08/2025</span></span>
+                                    <span class="publication-lineage-title">MOTIF: Multi-strategy Optimization via Turn-based Interaction Framework</span>
+                                    <span class="publication-lineage-relation">This is the root publication that introduces the turn-based interaction framework for combining multiple optimization strategies.</span>
+                                </button>
+
+                                <button class="publication-lineage-node lineage-node-pscr" type="button" data-lineage-id="pscr">
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">Representation Learning</span><span class="publication-lineage-node-date">03/2026</span></span>
+                                    <span class="publication-lineage-title">Predictive Spectral Calibration for Source-Free Test-Time Regression</span>
+                                    <span class="publication-lineage-relation">This is an independent research direction and does not derive from another publication in this lineage.</span>
+                                </button>
+
+                                <button class="publication-lineage-node lineage-node-maple" type="button" data-lineage-id="maple" data-lineage-parent="motif">
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">Informed Machine Learning</span><span class="publication-lineage-node-date">03/2026</span></span>
+                                    <span class="publication-lineage-title">MAPLE: Multi-Agent Prior Learning for Constructing Tree Ensembles</span>
+                                    <span class="publication-lineage-relation">Building on MOTIF, this work uses LLMs to generate priors over tabular features before constructing tree ensembles.</span>
+                                </button>
+
+                                <button class="publication-lineage-node lineage-node-relic" type="button" data-lineage-id="relic" data-lineage-parent="motif">
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">Multi-Strategy Optimization</span><span class="publication-lineage-node-date">04/2026</span></span>
+                                    <span class="publication-lineage-title">RELIC: Revealed Principles for Learning Interpretable Composable Skills in Multi-Agent Planning</span>
+                                    <span class="publication-lineage-relation">Extending MOTIF into decentralized multi-agent planning, each agent privately searches for skills while continuing to collaborate.</span>
+                                </button>
+
+                                <button class="publication-lineage-node lineage-node-b2b" type="button" data-lineage-id="b2b" data-lineage-parent="motif">
+                                    <span class="publication-lineage-star" aria-label="Highlighted publication">★</span>
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">Generalization in Heuristic Design</span><span class="publication-lineage-node-date">05/2026</span></span>
+                                    <span class="publication-lineage-title">Back to the Beginning of Heuristic Design: Bridging Code and Knowledge with LLMs</span>
+                                    <span class="publication-lineage-relation">Building on MOTIF, this work moves from code-first search to knowledge-before-code abstraction to improve heuristic generalization.</span>
+                                </button>
+
+                                <button class="publication-lineage-node lineage-node-sleep" type="button" data-lineage-id="sleep" data-lineage-parent="b2b">
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">Generalization in Heuristic Design</span><span class="publication-lineage-node-date">06/2026</span></span>
+                                    <span class="publication-lineage-title">SLEEP: Simulated Future Learning Environments for Automated Evolution of Heuristic Portfolios</span>
+                                    <span class="publication-lineage-relation">Extending Back to the Beginning, this work evolves training environments and data to address non-stationary combinatorial optimization.</span>
+                                </button>
+
+                                <button class="publication-lineage-node lineage-node-world" type="button" data-lineage-id="world" data-lineage-parent="b2b">
+                                    <span class="publication-lineage-node-header"><span class="publication-lineage-topic">World Modeling</span><span class="publication-lineage-node-date">07/2026</span></span>
+                                    <span class="publication-lineage-title">Automated Neurosymbolic World Modeling via Law Evolution and Neural Correction</span>
+                                    <span class="publication-lineage-relation">Extending Back to the Beginning, this work applies LLM-generated code to build neuro-symbolic world models for continuous-control robotics.</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- Ongoing Section -->
@@ -731,6 +794,14 @@
             </footer>
         </main>
     </div>
+
+    <!-- Edge rail: switches the Publications section between list and Research Lineage -->
+    <button class="lineage-edge" type="button" aria-pressed="false" aria-controls="publication-view-stage" aria-label="Show Research Lineage" title="Show Research Lineage">
+        <span class="lineage-edge-label">Research Lineage</span>
+        <span class="lineage-edge-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+        </span>
+    </button>
 
     <script type="module" src="/js/main.js"></script>
 </body>
