@@ -2,6 +2,23 @@
 
 A minimalist, black & white academic profile website template. Clean, elegant, and easy to extend.
 
+## Development
+
+This is a static site built with [Vite](https://vite.dev/) and [GSAP](https://gsap.com/). Node.js is only used for local development and producing the static `dist/` output; visitors are served ordinary HTML, CSS, JavaScript, and assets.
+
+```bash
+npm install
+npm run dev
+```
+
+Useful commands:
+
+- `npm run dev` — start the local development server.
+- `npm run build` — produce a production build in `dist/`.
+- `npm run preview` — serve the production build locally.
+
+GSAP-driven site animation lives in `js/animations.js`. Keep new motion subtle and preserve the `prefers-reduced-motion` opt-out.
+
 ## 📁 Project Structure
 
 ```
@@ -9,7 +26,11 @@ A minimalist, black & white academic profile website template. Clean, elegant, a
 ├── css/
 │   └── style.css           # All styles (CSS variables for easy customization)
 ├── js/
-│   └── main.js             # JavaScript utilities
+│   ├── main.js             # JavaScript utilities and app entry point
+│   └── animations.js       # GSAP animations
+├── .github/workflows/
+│   └── deploy-pages.yml    # Build and deploy GitHub Pages
+├── package.json            # Node.js scripts and dependencies
 ├── assets/
 │   ├── images/
 │   │   └── avatar.jpg      # Your profile photo
@@ -121,10 +142,15 @@ All colors and sizes can be easily changed via CSS variables in `css/style.css`:
 
 ### GitHub Pages
 
-1. Push this repository to GitHub
-2. Go to Settings → Pages
-3. Select "main" branch as source
-4. Your site will be live at `https://yourusername.github.io`
+The repository contains a GitHub Actions workflow that builds the site and deploys `dist/` after each push to `main`.
+
+One-time GitHub setup:
+
+1. Go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+3. Push the workflow to `main`.
+
+The site will be deployed at `https://haiau2501.github.io`.
 
 ## 📄 License
 

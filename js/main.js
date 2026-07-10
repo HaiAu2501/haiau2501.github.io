@@ -3,6 +3,8 @@
  * Handles interactive features and utilities
  */
 
+import { initEntranceAnimations } from './animations.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
     initThemeToggle();
@@ -11,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initLazyLoading();
     initMobileMenu();
     initPublicationAccordion();
+    initEntranceAnimations();
 });
 
 /**
