@@ -22,6 +22,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="motion-progress" aria-hidden="true"><span></span></div>
+
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
@@ -52,17 +54,26 @@
         <!-- Left Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-visual">
-                <div class="profile-image">
-                    <img src="assets/images/avatar.jpg" alt="Profile Photo" onerror="this.src='https://via.placeholder.com/200x200?text=Photo'">
+                <div class="profile-orbit">
+                    <div class="profile-image">
+                        <img src="assets/images/avatar.jpg" alt="Profile Photo" onerror="this.src='https://via.placeholder.com/200x200?text=Photo'">
+                    </div>
+                    <div class="profile-float-card profile-focus-card" aria-label="Exploring now: World Modeling">
+                        <span>Exploring now</span>
+                        <strong>World Modeling</strong>
+                    </div>
+                    <div class="profile-float-card profile-availability-card" aria-label="Online and open to Ph.D. and research assistant opportunities">
+                        <span class="profile-availability-status"><i class="online-dot" aria-hidden="true"></i>Online</span>
+                        <strong>Open to Ph.D. &amp; RA</strong>
+                    </div>
+                    <div class="profile-float-card profile-role-card" aria-label="Current role: Undergraduate Student">
+                        <span><small>Current role</small><strong>Undergraduate Student</strong></span>
+                    </div>
                 </div>
                 <h1 class="name"><span class="name-first">Nguyen Viet</span> <span class="name-last">Tuan Kiet</span></h1>
                 <p class="nickname">Kiet / Tuan Kiet</p>
             </div>
             <div class="sidebar-meta">
-                <div class="title-badge">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                    <span>Undergraduate Student</span>
-                </div>
                 <p class="affiliation">Hanoi University of Science and Technology<br>Talented Program - Computer Science</p>
                 
                 <div class="contact-info">
@@ -95,6 +106,28 @@
 
         <!-- Main Content -->
         <main class="content">
+            <section class="type-hero" aria-label="Research approach">
+                <div class="type-hero-meta">
+                    <span>Research in motion</span>
+                    <span>Hanoi · Vietnam</span>
+                </div>
+                <div class="type-card-stack">
+                    <div class="type-card type-card-red">
+                        <span>BEYOND THE OBVIOUS</span>
+                        <strong>SEARCH.</strong>
+                    </div>
+                    <div class="type-card type-card-champagne">
+                        <span>WITHOUT END</span>
+                        <strong>LEARN.</strong>
+                    </div>
+                    <div class="type-card type-card-white">
+                        <span>THINK DEEPLY</span>
+                        <strong>SOLVE.</strong>
+                    </div>
+                </div>
+                <p class="type-hero-caption">World Modeling · Combinatorial Optimization · Machine Learning</p>
+            </section>
+
             <!-- About Section -->
             <section id="about" class="section">
                 <h2 class="section-title">About</h2>
@@ -132,6 +165,11 @@
                     <a href="mailto:tuankiet.nv2501@gmail.com">tuankiet.nv2501@gmail.com</a>.
                 </p>
             </section>
+
+            <div class="statement-stack" aria-label="Research philosophy">
+                <div class="statement-card statement-card-red">IDEAS SHOULD MOVE.</div>
+                <div class="statement-card statement-card-champagne">SO SHOULD RESEARCH.</div>
+            </div>
 
             <!-- News Section -->
             <section id="news" class="section">
@@ -238,6 +276,11 @@
             <!-- Publications Section -->
             <section id="publications" class="section">
                 <h2 class="section-title">Publications</h2>
+                <div class="publication-metrics" aria-label="Publication metrics">
+                    <div class="metric-card metric-card-red"><strong>07</strong><span>Papers</span></div>
+                    <div class="metric-card metric-card-champagne"><strong>7/7</strong><span>First author</span></div>
+                    <div class="metric-card metric-card-white"><strong>01</strong><span>AAAI oral</span></div>
+                </div>
                 <div class="pub-note">
                     <p>Total papers: 7 · First-author papers: 7/7 · <span class="equal-star">★</span> indicates equal contribution</p>
                     <p class="pub-tags-legend">Tags:
@@ -352,7 +395,7 @@
                         </div>
                     </div>
 
-                    <div class="pub-item">
+                    <div class="pub-item pub-long-paper">
                         <div class="pub-content">
                             <button class="pub-toggle" type="button" aria-expanded="false">
                                 <span class="pub-toggle-main">
@@ -448,7 +491,7 @@
                     </div>
 
                     <div class="pub-year-heading">2025</div>
-                    <div class="pub-item">
+                    <div class="pub-item pub-long-paper">
                         <div class="pub-content">
                             <button class="pub-toggle" type="button" aria-expanded="false">
                                 <span class="pub-toggle-main">
