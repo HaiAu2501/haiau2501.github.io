@@ -3046,7 +3046,9 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
 
     .type-hero-caption {
         max-width: 100%;
-        font-size: 0.56rem;
+        font-size: clamp(0.42rem, 1.7vw, 0.52rem);
+        letter-spacing: 0.055em;
+        white-space: nowrap;
     }
 
     .statement-stack {
