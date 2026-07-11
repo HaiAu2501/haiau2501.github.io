@@ -99,8 +99,9 @@ function initHeroCards() {
         .from('.type-hero-caption', { autoAlpha: 0, y: 12, duration: 0.5 }, '-=0.45');
 
     entrance.eventCallback('onComplete', () => {
+        const mobile = window.matchMedia('(max-width: 600px)').matches;
+        const floatOffsets = mobile ? [-2, 16, -14] : [-4, 22, -18];
         cards.forEach((card, index) => {
-            const floatOffsets = [-4, 22, -18];
             gsap.to(card, {
                 y: floatOffsets[index],
                 duration: 2.4 + index * 0.35,

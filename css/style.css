@@ -3012,7 +3012,7 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
 
 @media (max-width: 600px) {
     .type-hero {
-        min-height: 440px;
+        min-height: 370px;
         margin-bottom: 2.5rem;
         padding-top: 0;
     }
@@ -3023,26 +3023,26 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     }
 
     .type-card-stack {
-        height: 300px;
+        height: 242px;
     }
 
     .type-card {
-        min-height: 96px;
-        padding: 0.8rem 1rem;
-        border-radius: 14px;
+        min-height: 76px;
+        padding: 0.65rem 0.85rem;
+        border-radius: 12px;
     }
 
     .type-card span {
-        font-size: 0.72rem;
+        font-size: 0.62rem;
     }
 
     .type-card strong {
-        font-size: clamp(1.8rem, 10vw, 2.7rem);
+        font-size: clamp(1.55rem, 8.5vw, 2.25rem);
     }
 
-    .type-card-red { top: 10px; width: 89%; }
-    .type-card-champagne { top: 103px; width: 96%; }
-    .type-card-white { top: 196px; left: 4%; width: 84%; }
+    .type-card-red { top: 8px; width: 84%; }
+    .type-card-champagne { top: 82px; width: 90%; }
+    .type-card-white { top: 156px; left: 4%; width: 80%; }
 
     .type-hero-caption {
         max-width: 100%;
@@ -3050,16 +3050,23 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     }
 
     .statement-stack {
-        height: 128px;
-        margin-bottom: 2.5rem;
+        height: 92px;
+        margin-bottom: 2.25rem;
     }
 
     .statement-ribbon {
-        padding: 0.6rem 0;
+        padding: 0.52rem 0;
     }
 
-    .statement-ribbon-red { top: 1.15rem; }
-    .statement-ribbon-champagne { bottom: 1.15rem; }
+    .statement-ribbon-red { top: 0.45rem; }
+    .statement-ribbon-champagne {
+        top: 2.72rem;
+        bottom: auto;
+    }
+
+    .statement-ribbon-track span {
+        font-size: 1.08rem;
+    }
 
     .publication-metrics {
         grid-template-columns: repeat(3, minmax(0, 1fr));
