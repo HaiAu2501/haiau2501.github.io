@@ -33,7 +33,6 @@ export function initEntranceAnimations() {
     initScrollProgress();
     initAvatarMotion();
     initHeroCards();
-    initStatementCards();
     initMetricCards();
     initNewsCascade();
     initPublicationSpotlight();
@@ -48,52 +47,36 @@ function initScrollProgress() {
     });
 }
 
-// 04 — portrait breathes gently; pointer movement adds restrained depth.
+// 04 — portrait breathes gently; precise pointers add restrained depth.
 function initAvatarMotion() {
     const orbit = document.querySelector('.profile-orbit');
     const image = orbit?.querySelector('.profile-image');
     if (!orbit || !image) return;
 
-    gsap.to(image, { y: -5, duration: 2.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to(image, { y: -11, rotation: 0.7, duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('.profile-focus-card', { x: -9, y: -13, rotation: -3.5, duration: 2.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('.profile-availability-card', { x: 10, y: -10, rotation: 3, duration: 3.1, delay: 0.35, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('.profile-role-card', { x: -7, y: 11, rotation: -2.2, duration: 3.3, delay: 0.7, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
-    const rotateX = gsap.quickTo(image, 'rotationX', { duration: 0.45, ease: 'power3.out' });
-    const rotateY = gsap.quickTo(image, 'rotationY', { duration: 0.45, ease: 'power3.out' });
-    orbit.addEventListener('pointermove', event => {
-        const bounds = orbit.getBoundingClientRect();
-        rotateY(((event.clientX - bounds.left) / bounds.width - 0.5) * 10);
-        rotateX(((event.clientY - bounds.top) / bounds.height - 0.5) * -10);
-    });
-    orbit.addEventListener('pointerleave', () => { rotateX(0); rotateY(0); });
-
-    gsap.to('.profile-focus-card', {
-        keyframes: [
-            { x: -8, y: -8, rotation: -4.2, duration: 2.1, ease: 'sine.inOut' },
-            { x: 1, y: -14, rotation: -2.4, duration: 2.1, ease: 'sine.inOut' },
-            { x: 6, y: -4, rotation: -3.2, duration: 2.1, ease: 'sine.inOut' },
-            { x: 0, y: 0, rotation: 0, duration: 2.1, ease: 'sine.inOut' },
-        ],
-        repeat: -1,
-    });
-    gsap.to('.profile-availability-card', {
-        keyframes: [
-            { x: 8, y: -4, rotation: 3.8, duration: 2.3, ease: 'sine.inOut' },
-            { x: 2, y: 7, rotation: 2.2, duration: 2.3, ease: 'sine.inOut' },
-            { x: -6, y: 2, rotation: 3.2, duration: 2.3, ease: 'sine.inOut' },
-            { x: 0, y: 0, rotation: 0, duration: 2.3, ease: 'sine.inOut' },
-        ],
-        delay: 0.55,
-        repeat: -1,
-    });
-    gsap.to('.profile-role-card', {
-        keyframes: [
-            { x: -7, y: 7, rotation: -2.2, duration: 2.5, ease: 'sine.inOut' },
-            { x: 4, y: 11, rotation: -0.8, duration: 2.5, ease: 'sine.inOut' },
-            { x: 8, y: 2, rotation: -1.6, duration: 2.5, ease: 'sine.inOut' },
-            { x: 0, y: 0, rotation: 0, duration: 2.5, ease: 'sine.inOut' },
-        ],
-        delay: 1.1,
-        repeat: -1,
-    });
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const rotateX = gsap.quickTo(image, 'rotationX', { duration: 0.4, ease: 'power3.out' });
+        const rotateY = gsap.quickTo(image, 'rotationY', { duration: 0.4, ease: 'power3.out' });
+        let bounds;
+        let frame;
+        let pointer;
+        orbit.addEventListener('pointerenter', () => { bounds = orbit.getBoundingClientRect(); });
+        orbit.addEventListener('pointermove', event => {
+            pointer = { x: event.clientX, y: event.clientY };
+            if (frame) return;
+            frame = requestAnimationFrame(() => {
+                bounds ||= orbit.getBoundingClientRect();
+                rotateY(((pointer.x - bounds.left) / bounds.width - 0.5) * 10);
+                rotateX(((pointer.y - bounds.top) / bounds.height - 0.5) * -10);
+                frame = null;
+            });
+        });
+        orbit.addEventListener('pointerleave', () => { rotateX(0); rotateY(0); });
+    }
 }
 
 // 05 — oversized headline cards arrive as a layered typographic composition.
@@ -102,7 +85,8 @@ function initHeroCards() {
     const cards = gsap.utils.toArray('.type-card');
     if (!hero || !cards.length) return;
 
-    gsap.timeline({ defaults: { ease: 'expo.out' } })
+    const entrance = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    entrance
         .from('.type-hero-meta', { autoAlpha: 0, y: -12, duration: 0.55 })
         .from(cards, {
             autoAlpha: 0,
@@ -114,90 +98,34 @@ function initHeroCards() {
         }, '-=0.25')
         .from('.type-hero-caption', { autoAlpha: 0, y: 12, duration: 0.5 }, '-=0.45');
 
-    cards.forEach((card, index) => {
-        const direction = index % 2 ? 1 : -1;
-        gsap.timeline({ repeat: -1, repeatDelay: 1.5, delay: 2.6 + index * 0.75 })
-            .to(card, {
-                xPercent: direction * 118,
-                autoAlpha: 0,
-                rotation: `+=${direction * 4}`,
-                duration: 0.72,
-                ease: 'power2.in',
-            })
-            .set(card, { xPercent: direction * -118, rotation: direction * -6 })
-            .to(card, {
-                xPercent: 0,
-                autoAlpha: 1,
-                rotation: 0,
-                duration: 0.9,
-                ease: 'expo.out',
-            })
-            .to(card, { y: index % 2 ? -7 : 7, duration: 1.1, yoyo: true, repeat: 1, ease: 'sine.inOut' });
+    entrance.eventCallback('onComplete', () => {
+        cards.forEach((card, index) => {
+            const floatOffsets = [-4, 22, -18];
+            gsap.to(card, {
+                y: floatOffsets[index],
+                duration: 2.4 + index * 0.35,
+                delay: index * 0.28,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+            });
+        });
     });
 }
 
-// 08 — the research philosophy crosses and separates as it scrolls into view.
-function initStatementCards() {
-    const stack = document.querySelector('.statement-stack');
-    if (!stack) return;
-
-    const red = stack.querySelector('.statement-card-red');
-    const champagne = stack.querySelector('.statement-card-champagne');
-    if (!red || !champagne) return;
-
-    const redFloat = gsap.to(red, {
-        y: -7,
-        rotation: -0.8,
-        duration: 2.7,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        paused: true,
-    });
-    const champagneFloat = gsap.to(champagne, {
-        y: 7,
-        rotation: 0.7,
-        duration: 3.1,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        paused: true,
-    });
-
-    function lockStatements() {
-        redFloat.pause(0);
-        champagneFloat.pause(0);
-        gsap.timeline({ onComplete: () => { redFloat.restart(); champagneFloat.restart(); } })
-            .fromTo(red,
-                { xPercent: -120, y: 22, autoAlpha: 0, rotation: -7 },
-                { xPercent: 0, y: 0, autoAlpha: 1, rotation: 0, duration: 0.95, ease: 'expo.out' })
-            .fromTo(champagne,
-                { xPercent: 120, y: -18, autoAlpha: 0, rotation: 7 },
-                { xPercent: 0, y: 0, autoAlpha: 1, rotation: 0, duration: 0.95, ease: 'expo.out' }, '-=0.62');
-    }
-
-    gsap.set([red, champagne], { autoAlpha: 0 });
-    ScrollTrigger.create({
-        trigger: stack,
-        start: 'top 82%',
-        onEnter: lockStatements,
-        onEnterBack: lockStatements,
-    });
-}
-
-// 09 — metric cards fan into place and keep a subtle independent rhythm.
+// 09 — metric cards fan into place once when they enter the viewport.
 function initMetricCards() {
     const metrics = document.querySelector('.publication-metrics');
     if (!metrics) return;
     const cards = gsap.utils.toArray('.metric-card');
 
-    cards.forEach((card, index) => {
-        gsap.timeline({ repeat: -1, repeatDelay: 1.4, delay: index * 0.65 })
-            .fromTo(card,
-                { yPercent: 125, autoAlpha: 0, rotation: (index - 1) * 7 },
-                { yPercent: 0, autoAlpha: 1, rotation: 0, duration: 0.8, ease: 'back.out(1.45)' })
-            .to(card, { y: index === 1 ? 5 : -5, duration: 1.1, yoyo: true, repeat: 1, ease: 'sine.inOut' })
-            .to(card, { yPercent: -125, autoAlpha: 0, duration: 0.72, ease: 'power2.in' }, '+=1.8');
+    gsap.from(cards, {
+        y: 24,
+        autoAlpha: 0,
+        stagger: 0.08,
+        duration: 0.6,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: metrics, start: 'top 88%', once: true },
     });
 }
 
@@ -205,7 +133,7 @@ function initMetricCards() {
 function initNewsCascade() {
     const news = document.querySelector('#news .news-list');
     if (!news) return;
-    gsap.from('#news .news-item', {
+    gsap.from('#news .news-item:not(.is-collapsed)', {
         x: -16,
         autoAlpha: 0,
         stagger: 0.055,
@@ -217,13 +145,24 @@ function initNewsCascade() {
 
 // 11 — publication glow follows the pointer without moving the card itself.
 function initPublicationSpotlight() {
-    document.querySelectorAll('.pub-item').forEach(item => {
-        item.addEventListener('pointermove', event => {
-            const bounds = item.getBoundingClientRect();
-            item.style.setProperty('--spot-x', `${event.clientX - bounds.left}px`);
-            item.style.setProperty('--spot-y', `${event.clientY - bounds.top}px`);
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        document.querySelectorAll('.pub-item').forEach(item => {
+            let bounds;
+            let frame;
+            let pointer;
+            item.addEventListener('pointerenter', () => { bounds = item.getBoundingClientRect(); });
+            item.addEventListener('pointermove', event => {
+                pointer = { x: event.clientX, y: event.clientY };
+                if (frame) return;
+                frame = requestAnimationFrame(() => {
+                    bounds ||= item.getBoundingClientRect();
+                    item.style.setProperty('--spot-x', `${pointer.x - bounds.left}px`);
+                    item.style.setProperty('--spot-y', `${pointer.y - bounds.top}px`);
+                    frame = null;
+                });
+            });
         });
-    });
+    }
 
     const publications = document.querySelector('#publications .publications-list');
     if (publications) {

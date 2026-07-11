@@ -16,10 +16,10 @@
             } catch (error) {}
         })();
     </script>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="motion-progress" aria-hidden="true"><span></span></div>
@@ -28,10 +28,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#about" class="nav-logo">Nguyen Viet Tuan Kiet</a>
-            <button class="nav-toggle" aria-label="Toggle menu">
+            <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
                 <span class="hamburger"></span>
             </button>
-            <div class="nav-links">
+            <div class="nav-links" id="primary-navigation">
                 <a href="#about" class="nav-link">About</a>
                 <a href="#news" class="nav-link">News</a>
                 <a href="#education" class="nav-link">Education</a>
@@ -56,7 +56,7 @@
             <div class="sidebar-visual">
                 <div class="profile-orbit">
                     <div class="profile-image">
-                        <img src="assets/images/avatar.jpg" alt="Profile Photo" onerror="this.src='https://via.placeholder.com/200x200?text=Photo'">
+                        <img src="assets/images/avatar.jpg" alt="Profile Photo" width="960" height="938" decoding="async" fetchpriority="high" onerror="this.src='https://via.placeholder.com/200x200?text=Photo'">
                     </div>
                     <div class="profile-float-card profile-focus-card" aria-label="Exploring now: World Modeling">
                         <span>Exploring now</span>
@@ -167,8 +167,16 @@
             </section>
 
             <div class="statement-stack" aria-label="Research philosophy">
-                <div class="statement-card statement-card-red">IDEAS SHOULD MOVE.</div>
-                <div class="statement-card statement-card-champagne">SO SHOULD RESEARCH.</div>
+                <div class="statement-ribbon statement-ribbon-red" aria-hidden="true">
+                    <div class="statement-ribbon-track">
+                        <span>IDEAS SHOULD MOVE.</span><span>IDEAS SHOULD MOVE.</span><span>IDEAS SHOULD MOVE.</span><span>IDEAS SHOULD MOVE.</span>
+                    </div>
+                </div>
+                <div class="statement-ribbon statement-ribbon-champagne" aria-hidden="true">
+                    <div class="statement-ribbon-track">
+                        <span>SO SHOULD RESEARCH.</span><span>SO SHOULD RESEARCH.</span><span>SO SHOULD RESEARCH.</span><span>SO SHOULD RESEARCH.</span>
+                    </div>
+                </div>
             </div>
 
             <!-- News Section -->
@@ -782,8 +790,8 @@
                         <p>I am always happy to connect — whether you have a question, a collaboration idea, or just want to say hi. Feel free to reach out via email or any of the links above. I look forward to hearing from you!</p>
                     </div>
                 </div>
-                <div class="clustrmap">
-                    <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=H3FK9MghuJ5dQ2IHGHWc-yQ5EXhXSBjaJHxsbs_n33k&cl=ffffff&w=a"></script>
+                <div class="clustrmap" data-visitor-map-src="https://mapmyvisitors.com/map.js?d=H3FK9MghuJ5dQ2IHGHWc-yQ5EXhXSBjaJHxsbs_n33k&cl=ffffff&w=a">
+                    <span class="visitor-map-placeholder" aria-hidden="true"></span>
                 </div>
             </section>
 

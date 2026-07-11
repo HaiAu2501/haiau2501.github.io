@@ -8,12 +8,12 @@ import { initEntranceAnimations } from './animations.js';
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
     initThemeToggle();
-    initSmoothScroll();
     initNewsToggle();
-    initLazyLoading();
     initMobileMenu();
+    initActiveNavigation();
     initPublicationAccordion();
     initLineageMode();
+    initVisitorMap();
     initEntranceAnimations();
 });
 
@@ -66,36 +66,57 @@ function initMobileMenu() {
     
     if (!navToggle || !navLinks) return;
     
+    function setMenu(open) {
+        navToggle.classList.toggle('active', open);
+        navLinks.classList.toggle('active', open);
+        navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    }
+
     navToggle.addEventListener('click', function() {
-        navToggle.classList.toggle('active');
-        navLinks.classList.toggle('active');
+        setMenu(!navLinks.classList.contains('active'));
     });
     
     // Close menu when clicking a link
     navLinks.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function() {
-            navToggle.classList.remove('active');
-            navLinks.classList.remove('active');
+            setMenu(false);
         });
+    });
+
+    document.addEventListener('click', event => {
+        if (navLinks.classList.contains('active') && !event.target.closest('.navbar')) setMenu(false);
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+            setMenu(false);
+            navToggle.focus();
+        }
     });
 }
 
 /**
- * Smooth scrolling for anchor links
+ * Highlight the current section without overriding native anchor history.
  */
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+function initActiveNavigation() {
+    const links = [...document.querySelectorAll('.nav-link[href^="#"]')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    if (!links.length || !sections.length || !('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(entries => {
+        const visible = entries.filter(entry => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        links.forEach(link => {
+            const active = link.getAttribute('href') === `#${visible.target.id}`;
+            link.classList.toggle('is-active', active);
+            if (active) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
         });
-    });
+    }, { rootMargin: '-18% 0px -62% 0px', threshold: [0, 0.1, 0.5] });
+
+    sections.forEach(section => observer.observe(section));
 }
 
 /**
@@ -110,36 +131,29 @@ function initNewsToggle() {
     const maxVisible = 5; // Number of news items to show initially
 
     if (newsItems.length > maxVisible) {
-        // Hide extra items
+        newsList.classList.add('news-expandable');
         newsItems.forEach((item, index) => {
             if (index >= maxVisible) {
-                item.classList.add('hidden');
-                item.style.display = 'none';
+                item.classList.add('news-extra', 'is-collapsed');
             }
         });
 
         // Create toggle button
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'news-toggle';
+        toggleBtn.type = 'button';
         toggleBtn.textContent = `Show more (${newsItems.length - maxVisible} more)`;
-        toggleBtn.style.cssText = `
-            background: none;
-            border: none;
-            color: var(--color-text-light);
-            font-size: 0.85rem;
-            cursor: pointer;
-            padding: 0.5rem 0;
-            margin-top: 0.5rem;
-        `;
+        toggleBtn.setAttribute('aria-expanded', 'false');
 
         let expanded = false;
         toggleBtn.addEventListener('click', function() {
             expanded = !expanded;
             newsItems.forEach((item, index) => {
                 if (index >= maxVisible) {
-                    item.style.display = expanded ? 'flex' : 'none';
+                    item.classList.toggle('is-collapsed', !expanded);
                 }
             });
+            toggleBtn.setAttribute('aria-expanded', String(expanded));
             toggleBtn.textContent = expanded 
                 ? 'Show less' 
                 : `Show more (${newsItems.length - maxVisible} more)`;
@@ -149,35 +163,32 @@ function initNewsToggle() {
     }
 }
 
-/**
- * Lazy loading for images
- */
-function initLazyLoading() {
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                    }
-                    observer.unobserve(img);
-                }
-            });
-        });
-
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-}
-
 function initPublicationAccordion() {
     const items = document.querySelectorAll('.pub-item');
     if (!items.length) return;
 
     const mobileQuery = window.matchMedia('(max-width: 900px)');
+
+    function setDetails(details, expanded) {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (expanded) details.hidden = false;
+        if (reduceMotion || typeof details.animate !== 'function') {
+            details.hidden = !expanded;
+            return;
+        }
+
+        const height = details.scrollHeight;
+        const animation = details.animate([
+            { height: expanded ? '0px' : `${height}px`, opacity: expanded ? 0 : 1, transform: expanded ? 'translateY(-4px)' : 'none' },
+            { height: expanded ? `${height}px` : '0px', opacity: expanded ? 1 : 0, transform: expanded ? 'none' : 'translateY(-4px)' },
+        ], { duration: 280, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+
+        details.style.overflow = 'hidden';
+        animation.finished.finally(() => {
+            details.style.overflow = '';
+            details.hidden = !expanded;
+        });
+    }
 
     function placeDetailsForViewport(item, isMobile) {
         const content = item.querySelector('.pub-content');
@@ -230,7 +241,7 @@ function initPublicationAccordion() {
             const details = item.querySelector('.pub-details') || item.nextElementSibling;
             toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
             if (details && details.classList.contains('pub-details')) {
-                details.hidden = !expanded;
+                setDetails(details, expanded);
             }
         });
     });
@@ -242,6 +253,34 @@ function initPublicationAccordion() {
     } else if (typeof mobileQuery.addListener === 'function') {
         mobileQuery.addListener(syncAccordionState);
     }
+}
+
+function initVisitorMap() {
+    const container = document.querySelector('[data-visitor-map-src]');
+    if (!container) return;
+
+    function loadMap() {
+        if (container.dataset.loaded === 'true') return;
+        container.dataset.loaded = 'true';
+        const script = document.createElement('script');
+        script.id = 'mapmyvisitors';
+        script.src = container.dataset.visitorMapSrc;
+        script.async = true;
+        container.replaceChildren(script);
+    }
+
+    if (!('IntersectionObserver' in window)) {
+        loadMap();
+        return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+            loadMap();
+            observer.disconnect();
+        }
+    }, { rootMargin: '500px 0px' });
+    observer.observe(container);
 }
 
 /**

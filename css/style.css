@@ -359,41 +359,67 @@ body {
 
 .statement-stack {
     position: relative;
-    height: 220px;
-    margin: 1.5rem 0 4rem;
+    height: 170px;
+    margin: 1rem 0 3.25rem;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 0;
     isolation: isolate;
     contain: paint;
 }
 
-.statement-card {
-    --statement-outline: var(--color-motion-red);
+.statement-ribbon {
     position: absolute;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--statement-outline);
-    text-stroke: 1.5px var(--statement-outline);
-    font-size: clamp(1.75rem, 4.8vw, 3.45rem);
-    font-weight: 800;
-    letter-spacing: -0.065em;
-    line-height: 1.08;
-    white-space: nowrap;
-    filter: drop-shadow(0 8px 18px color-mix(in srgb, var(--statement-outline) 12%, transparent));
-    will-change: transform;
+    left: -12%;
+    width: 124%;
+    overflow: hidden;
+    padding: 0.72rem 0;
+    color: var(--color-motion-ink);
+    box-shadow: 0 14px 34px var(--color-shadow-soft);
+    transform: rotate(-3deg);
 }
 
-.statement-card-red {
-    top: 2.5rem;
-    left: 0.7rem;
+.statement-ribbon-red {
+    top: 1.7rem;
     z-index: 2;
-    --statement-outline: var(--color-motion-red);
+    background: var(--color-motion-red);
 }
 
-.statement-card-champagne {
-    right: 0.7rem;
-    bottom: 3.15rem;
+.statement-ribbon-champagne {
+    bottom: 1.7rem;
     z-index: 1;
-    --statement-outline: var(--color-motion-champagne);
+    background: var(--color-motion-champagne);
+    transform: rotate(-3deg);
+}
+
+.statement-ribbon-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: statementRibbonLeft 16s linear infinite;
+}
+
+.statement-ribbon-champagne .statement-ribbon-track {
+    animation-name: statementRibbonRight;
+    animation-duration: 18s;
+}
+
+.statement-ribbon-track span {
+    flex: 0 0 auto;
+    padding-right: 2.4rem;
+    font-size: clamp(1.25rem, 3.6vw, 2.35rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+@keyframes statementRibbonLeft {
+    to { transform: translateX(-25%); }
+}
+
+@keyframes statementRibbonRight {
+    from { transform: translateX(-25%); }
+    to { transform: translateX(0); }
 }
 
 .publication-metrics {
@@ -601,8 +627,13 @@ img {
     transition: width 0.2s ease;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.is-active::after {
     width: 100%;
+}
+
+.nav-link.is-active {
+    color: var(--color-link);
 }
 
 /* ---------- Layout ---------- */
@@ -855,6 +886,38 @@ img {
     gap: var(--spacing-md);
     padding: var(--spacing-xs) 0;
     font-size: 0.95rem;
+}
+
+.news-expandable .news-extra {
+    overflow: hidden;
+    max-height: 10rem;
+    opacity: 1;
+    transition: max-height 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, padding 0.28s ease;
+}
+
+.news-expandable .news-extra.is-collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.news-toggle {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
+    color: var(--color-text-light);
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.18s ease;
+}
+
+.news-toggle:hover,
+.news-toggle:focus-visible {
+    color: var(--color-link);
 }
 
 /* A one-line event log: the date colour is the only category cue. */
@@ -2099,18 +2162,31 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     }
     
     .nav-links {
-        display: none;
+        display: flex;
         width: 100%;
         flex-direction: column;
         gap: 0;
-        padding: var(--spacing-sm) 0 0 0;
-        border-top: 1px solid var(--color-border);
-        margin-top: var(--spacing-sm);
+        overflow: hidden;
+        max-height: 0;
+        padding: 0;
+        border-top: 1px solid transparent;
+        margin-top: 0;
+        opacity: 0;
+        visibility: hidden;
         order: 3;
+        transform: translateY(-6px);
+        transition: max-height 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.18s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), margin 0.28s ease, padding 0.28s ease, border-color 0.28s ease, visibility 0.28s;
     }
     
     .nav-links.active {
         display: flex;
+        max-height: 24rem;
+        padding: var(--spacing-sm) 0 0;
+        border-top-color: var(--color-border);
+        margin-top: var(--spacing-sm);
+        opacity: 1;
+        visibility: visible;
+        transform: none;
     }
     
     .nav-link {
@@ -2211,12 +2287,7 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     .type-card-white { top: 218px; width: 79%; }
 
     .statement-stack {
-        height: 190px;
-    }
-
-    .statement-card {
-        -webkit-text-stroke-width: 1.3px;
-        text-stroke-width: 1.3px;
+        height: 150px;
     }
 
     /* Name displays on one line in mobile */
@@ -2435,22 +2506,6 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
 
     .pub-details.pub-details-mobile[hidden] {
         display: none;
-    }
-
-    .pub-details.pub-details-mobile:not([hidden]) {
-        animation: pubDetailsIn 0.18s ease both;
-    }
-
-    @keyframes pubDetailsIn {
-        from {
-            opacity: 0;
-            transform: translateY(-4px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
     }
 
     /* Education Timeline responsive - left-side vertical timeline */
@@ -2995,18 +3050,16 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     }
 
     .statement-stack {
-        height: 150px;
-        margin-bottom: 3rem;
+        height: 128px;
+        margin-bottom: 2.5rem;
     }
 
-    .statement-card {
-        font-size: clamp(1.25rem, 6.5vw, 2rem);
-        -webkit-text-stroke-width: 1.1px;
-        text-stroke-width: 1.1px;
+    .statement-ribbon {
+        padding: 0.6rem 0;
     }
 
-    .statement-card-red { top: 2rem; left: 0.4rem; }
-    .statement-card-champagne { right: 0.4rem; bottom: 2.4rem; }
+    .statement-ribbon-red { top: 1.15rem; }
+    .statement-ribbon-champagne { bottom: 1.15rem; }
 
     .publication-metrics {
         grid-template-columns: repeat(3, minmax(0, 1fr));
