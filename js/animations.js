@@ -33,9 +33,73 @@ export function initEntranceAnimations() {
     initScrollProgress();
     initAvatarMotion();
     initHeroCards();
+    initScrollHighlights();
     initMetricCards();
     initNewsCascade();
     initPublicationSpotlight();
+}
+
+// 06 — selected phrases fill with the page's accent colours as the reader
+// moves through their paragraph. Scrub keeps the motion fully reversible.
+function initScrollHighlights() {
+    const highlights = gsap.utils.toArray('.scroll-highlight');
+    if (!highlights.length) return;
+
+    highlights.forEach(highlight => {
+        const paragraph = highlight.closest('p');
+        const layer = document.createElement('span');
+        const progress = { value: 0 };
+        let segments = [];
+        let totalWidth = 0;
+
+        paragraph.classList.add('has-scroll-highlight');
+        layer.className = `scroll-highlight-layer${highlight.classList.contains('scroll-highlight-champagne') ? ' is-champagne' : ''}`;
+        layer.setAttribute('aria-hidden', 'true');
+        paragraph.appendChild(layer);
+
+        function render() {
+            let remaining = progress.value * totalWidth;
+            segments.forEach(({ element, width }) => {
+                const visible = Math.max(0, Math.min(width, remaining));
+                element.style.width = `${visible}px`;
+                remaining -= width;
+            });
+        }
+
+        function layout() {
+            const paragraphBox = paragraph.getBoundingClientRect();
+            const rects = [...highlight.getClientRects()].filter(rect => rect.width > 0 && rect.height > 0);
+            layer.replaceChildren();
+            segments = rects.map(rect => {
+                const segment = document.createElement('i');
+                const height = rect.height * 0.88;
+                segment.style.left = `${rect.left - paragraphBox.left}px`;
+                segment.style.top = `${rect.top - paragraphBox.top + (rect.height - height) / 2}px`;
+                segment.style.height = `${height}px`;
+                layer.appendChild(segment);
+                return { element: segment, width: rect.width };
+            });
+            totalWidth = segments.reduce((sum, segment) => sum + segment.width, 0);
+            render();
+        }
+
+        layout();
+        new ResizeObserver(layout).observe(paragraph);
+
+        gsap.to(progress, {
+            value: 1,
+            duration: 1,
+            ease: 'none',
+            onUpdate: render,
+            scrollTrigger: {
+                trigger: paragraph,
+                start: 'top 98%',
+                end: 'bottom 90%',
+                scrub: 0.25,
+                onRefresh: layout,
+            },
+        });
+    });
 }
 
 // 01 — a slim page progress signal that follows the full document.

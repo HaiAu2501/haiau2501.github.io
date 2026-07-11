@@ -357,6 +357,35 @@ body {
     text-transform: uppercase;
 }
 
+.scroll-highlight {
+    position: relative;
+    z-index: 1;
+    color: inherit;
+}
+
+.has-scroll-highlight {
+    position: relative;
+}
+
+.scroll-highlight-layer {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    pointer-events: none;
+}
+
+.scroll-highlight-layer i {
+    position: absolute;
+    display: block;
+    width: 0;
+    border-radius: 0.12em;
+    background: color-mix(in srgb, var(--color-motion-red) 72%, transparent);
+}
+
+.scroll-highlight-layer.is-champagne i {
+    background: color-mix(in srgb, var(--color-motion-champagne) 68%, transparent);
+}
+
 .statement-stack {
     position: relative;
     height: 170px;
