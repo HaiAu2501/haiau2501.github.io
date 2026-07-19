@@ -4,12 +4,8 @@
  */
 
 import { initEntranceAnimations } from './animations.js';
-import cvUrl from '../assets/cv.pdf';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const cvDownloadLink = document.querySelector('#cv-download-link');
-    if (cvDownloadLink) cvDownloadLink.href = cvUrl;
-
     // Initialize all features
     initThemeToggle();
     initNewsToggle();
