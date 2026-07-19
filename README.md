@@ -34,8 +34,7 @@ GSAP-driven site animation lives in `js/animations.js`. Keep new motion subtle a
 ├── assets/
 │   ├── images/
 │   │   └── avatar.jpg      # Your profile photo
-│   ├── cv.pdf              # Your CV
-│   └── README.md           # Assets guidelines
+│   └── cv.pdf              # Your CV
 └── README.md               # This file
 ```
 
