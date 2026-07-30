@@ -1126,6 +1126,80 @@ img {
     font-weight: 500;
 }
 
+/* Thesis: a standalone typographic block above the timeline. Deliberately has
+   no frame or fill - the Publications section sets the same chrome-less tone,
+   and a boxed card here read as a callout pasted onto the page. */
+.edu-thesis {
+    margin-bottom: var(--spacing-lg);
+}
+
+.edu-thesis-label {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin-bottom: 0.15rem;
+}
+
+/* Two accents, two jobs: red names what the record is, champagne marks what
+   was earned - the same split the metric cards use in Publications. */
+.edu-thesis-kind {
+    color: var(--color-pub-neon);
+}
+
+.edu-thesis-score {
+    color: var(--color-motion-champagne-text);
+}
+
+.edu-thesis-score::before {
+    content: "\00b7";
+    margin: 0 0.5rem;
+    color: var(--color-text-muted);
+}
+
+.edu-thesis-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.4;
+    margin-bottom: 0.2rem;
+}
+
+/* A max-content label column puts every value on the same axis without
+   hard-coding a width the longest label might outgrow. */
+.edu-thesis-meta {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    column-gap: var(--spacing-sm);
+    align-items: baseline;
+    font-size: 0.87rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+}
+
+/* Monospaced on purpose: the three labels are all seven characters, so a
+   fixed advance width makes the column an exact rectangle. Inter would still
+   render them at three different widths. */
+.edu-thesis-meta dt {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.edu-thesis-meta dd {
+    margin: 0;
+    min-width: 0;
+}
+
+.edu-thesis-honor {
+    color: var(--color-motion-champagne-text);
+}
+
 .edu-card .details {
     font-size: 0.85rem;
     color: var(--color-text-muted);
