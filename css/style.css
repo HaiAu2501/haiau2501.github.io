@@ -955,7 +955,7 @@ img {
 }
 
 .event-stream .news-item[data-event="accepted"] { --event-color: var(--color-motion-champagne-text); }
-.event-stream .news-item[data-event="setback"] { --event-color: var(--color-motion-champagne-text); }
+.setbacks-stream .news-item.is-latest { --event-color: var(--color-motion-champagne-text); }
 
 .event-stream .news-date {
     color: var(--event-color, var(--color-text-muted));
