@@ -1761,6 +1761,27 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     --pub-accent: var(--color-motion-red);
 }
 
+.pub-item.pub-anonymous {
+    --pub-accent: var(--color-text-muted);
+}
+
+.pub-anonymous .pub-title {
+    color: var(--color-text-light);
+}
+
+.pub-anonymous .pub-authors,
+.pub-anonymous .pub-keywords {
+    color: var(--color-text-muted);
+}
+
+.pub-anonymous .pub-authors strong {
+    color: var(--color-text-light);
+}
+
+.pub-anonymous .pub-details-mobile .pub-link-note {
+    display: none;
+}
+
 @media (min-width: 901px) {
     .publications-list:has(.pub-item:hover) .pub-item:not(:hover),
     .publications-list:has(.pub-item:focus-within) .pub-item:not(:focus-within) {
@@ -1983,6 +2004,12 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     background-color: transparent;
     color: var(--color-link);
     border: 1px solid color-mix(in srgb, var(--color-motion-red) 72%, var(--color-border));
+}
+
+.tag-under-review {
+    background: transparent;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
 }
 
 .tag-history {
@@ -2826,7 +2853,8 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
 
     .pub-mobile-status.tag-oral,
     .pub-mobile-status.tag-workshop,
-    .pub-mobile-status.tag-preprint {
+    .pub-mobile-status.tag-preprint,
+    .pub-mobile-status.tag-under-review {
         display: inline-flex;
         align-items: center;
         justify-content: center;
