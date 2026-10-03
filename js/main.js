@@ -259,28 +259,13 @@ function initVisitorMap() {
     const container = document.querySelector('[data-visitor-map-src]');
     if (!container) return;
 
-    function loadMap() {
-        if (container.dataset.loaded === 'true') return;
-        container.dataset.loaded = 'true';
-        const script = document.createElement('script');
-        script.id = 'mapmyvisitors';
-        script.src = container.dataset.visitorMapSrc;
-        script.async = true;
-        container.replaceChildren(script);
-    }
-
-    if (!('IntersectionObserver' in window)) {
-        loadMap();
-        return;
-    }
-
-    const observer = new IntersectionObserver(entries => {
-        if (entries.some(entry => entry.isIntersecting)) {
-            loadMap();
-            observer.disconnect();
-        }
-    }, { rootMargin: '500px 0px' });
-    observer.observe(container);
+    // Load immediately so every visit is counted, not only those that scroll
+    // down to the map.
+    const script = document.createElement('script');
+    script.id = 'mapmyvisitors';
+    script.src = container.dataset.visitorMapSrc;
+    script.async = true;
+    container.replaceChildren(script);
 }
 
 /**
