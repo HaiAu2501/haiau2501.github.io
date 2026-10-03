@@ -4,6 +4,7 @@
  */
 
 import { initEntranceAnimations } from './animations.js';
+import { initOngoingVisuals, initPaperFigures } from './ongoing-visuals.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all features
@@ -14,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initPublicationAccordion();
     initLineageMode();
     initVisitorMap();
+    initOngoingVisuals();
+    initPaperFigures();
+    initThesisTitleFit();
     initEntranceAnimations();
 });
 
@@ -253,6 +257,32 @@ function initPublicationAccordion() {
     } else if (typeof mobileQuery.addListener === 'function') {
         mobileQuery.addListener(syncAccordionState);
     }
+}
+
+/**
+ * Keep the thesis title on one line on desktop by shrinking its font just
+ * enough; on narrow screens it wraps normally.
+ */
+function initThesisTitleFit() {
+    const title = document.querySelector('.edu-thesis-title');
+    if (!title) return;
+    const desktop = window.matchMedia('(min-width: 901px)');
+
+    function fit() {
+        title.style.fontSize = '';
+        title.classList.toggle('is-fitted', desktop.matches);
+        if (!desktop.matches) return;
+        const available = title.clientWidth;
+        const needed = title.scrollWidth;
+        if (needed > available) {
+            const base = parseFloat(getComputedStyle(title).fontSize);
+            title.style.fontSize = `${Math.floor(base * available / needed * 100) / 100}px`;
+        }
+    }
+
+    fit();
+    new ResizeObserver(fit).observe(title.parentElement);
+    document.fonts?.ready.then(fit);
 }
 
 function initVisitorMap() {

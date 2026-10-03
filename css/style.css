@@ -1765,6 +1765,31 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     --pub-accent: var(--color-text-muted);
 }
 
+/* One card stands in for several anonymous submissions; the count sits in
+   its corner. */
+.pub-count {
+    position: absolute;
+    top: 50%;
+    right: 1.1rem;
+    z-index: 1;
+    color: var(--color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 3.4rem;
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    opacity: 0.55;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .pub-count {
+        right: 3.1rem;
+        font-size: 2.4rem;
+    }
+}
+
 .pub-anonymous .pub-title {
     color: var(--color-text-light);
 }
@@ -3220,4 +3245,307 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
     .metric-card span {
         font-size: 0.5rem;
     }
+}
+
+/* ---------- Section titles: numbered ---------- */
+.content {
+    counter-reset: section-number;
+}
+
+.section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.section-title::before {
+    counter-increment: section-number;
+    content: counter(section-number, decimal-leading-zero);
+    color: var(--color-link);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    transform: translateY(-0.3em);
+}
+
+/* ---------- Ongoing: animated pipeline under each direction ---------- */
+.ongoing-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ongoing-visual {
+    --ov-red: var(--color-motion-red);
+    --ov-champ: var(--color-motion-champagne);
+    --ov-white: var(--color-motion-white);
+    --ov-muted: var(--color-text-muted);
+    --ov-line: color-mix(in srgb, var(--color-text-muted) 75%, transparent);
+    --ov-edge: color-mix(in srgb, var(--color-text-muted) 32%, transparent);
+
+    padding: 0.35rem 0 0.2rem;
+}
+
+:root[data-theme="light"] .ongoing-visual {
+    --ov-champ: #c9a45a;
+    --ov-white: var(--color-text-light);
+}
+
+.ongoing-visual svg {
+    display: block;
+    width: 100%;
+    max-width: 540px;
+    height: auto;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.ongoing-visual .ov-label {
+    fill: var(--ov-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    text-anchor: middle;
+}
+
+.ongoing-visual .ov-label-sm { font-size: 11px; }
+
+.ongoing-visual .ov-glyph-text {
+    fill: var(--color-text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-anchor: middle;
+}
+
+.ongoing-visual .ov-glyph-lg { font-size: 16px; }
+
+.ongoing-visual .ov-line,
+.ongoing-visual .ov-path,
+.ongoing-visual .ov-edge,
+.ongoing-visual .ov-box,
+.ongoing-visual .ov-frame,
+.ongoing-visual .ov-ring,
+.ongoing-visual .ov-arm {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ongoing-visual .ov-line { stroke: var(--ov-line); stroke-width: 1.4; }
+.ongoing-visual .ov-red-line { stroke: var(--ov-red); }
+.ongoing-visual .ov-edge { stroke: var(--ov-edge); stroke-width: 1; }
+.ongoing-visual .ov-path { stroke-width: 1.6; }
+.ongoing-visual .ov-thick { stroke-width: 2.2; }
+.ongoing-visual .ov-arm { stroke: var(--ov-white); stroke-width: 3.5; }
+.ongoing-visual .ov-frame { stroke: var(--ov-edge); stroke-width: 1; stroke-dasharray: 3 3; }
+.ongoing-visual .ov-dashed { stroke-dasharray: 3 4; }
+.ongoing-visual .ov-box { stroke-width: 1.5; }
+.ongoing-visual .ov-solid { fill: var(--color-surface); }
+.ongoing-visual .ov-red { stroke: var(--ov-red); }
+.ongoing-visual .ov-champ { stroke: var(--ov-champ); }
+.ongoing-visual .ov-white { stroke: var(--ov-white); }
+.ongoing-visual .ov-ghost { stroke: var(--ov-edge); }
+.ongoing-visual .ov-fill-red { fill: var(--ov-red); }
+.ongoing-visual .ov-fill-champ { fill: var(--ov-champ); }
+.ongoing-visual .ov-fill-white { fill: var(--ov-white); }
+.ongoing-visual .ov-fill-muted { fill: var(--ov-line); }
+.ongoing-visual .ov-node { fill: var(--color-surface); stroke: var(--ov-white); stroke-width: 1.3; }
+.ongoing-visual .ov-cell { fill: color-mix(in srgb, var(--ov-muted) 12%, transparent); stroke: none; }
+.ongoing-visual .ov-scan { fill: color-mix(in srgb, var(--ov-champ) 20%, transparent); stroke: var(--ov-champ); stroke-width: 1; }
+.ongoing-visual .ov-ring { stroke: var(--ov-red); stroke-width: 1.2; }
+.ongoing-visual .ov-ring-champ { stroke: var(--ov-champ); }
+
+/* Motion (runs only while the diagram is on screen) */
+.ongoing-visual .ov-draw { stroke-dasharray: 1; animation: ov-draw 4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.ongoing-visual .ov-think { transform-box: fill-box; transform-origin: center; animation: ov-think 0.8s ease-in-out infinite alternate; }
+.ongoing-visual .ov-type { transform-box: fill-box; transform-origin: left; animation: ov-type 2.4s ease-in-out infinite; }
+.ongoing-visual .ov-bar { transform-box: fill-box; transform-origin: bottom; animation: ov-bar 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.ongoing-visual .ov-ring { transform-box: fill-box; transform-origin: center; animation: ov-ring 2s ease-out infinite; }
+.ongoing-visual .ov-imagine { animation: ov-imagine 1.8s ease-in-out infinite; }
+.ongoing-visual .ov-block { animation: ov-block 1.4s ease-in-out infinite; }
+.ongoing-visual .ov-agent { animation: ov-agent 2.8s ease-in-out infinite; }
+.ongoing-visual .ov-spin { animation: ov-spin 6s linear infinite; }
+
+.ongoing-visual:not(.is-playing) * {
+    animation-play-state: paused !important;
+}
+
+@keyframes ov-draw {
+    0% { stroke-dashoffset: 1; opacity: 1; }
+    55%, 85% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes ov-think { from { transform: scaleY(0.35); } to { transform: scaleY(1); } }
+@keyframes ov-type { 0% { transform: scaleX(0); } 40%, 85% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes ov-bar { 0% { transform: scaleY(0.2); } 45%, 100% { transform: scaleY(1); } }
+@keyframes ov-ring { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.8); opacity: 0; } }
+@keyframes ov-imagine { 0%, 100% { opacity: 0.25; } 35%, 55% { opacity: 1; } }
+@keyframes ov-block { 0%, 100% { fill: var(--color-surface); } 30% { fill: color-mix(in srgb, var(--ov-champ) 30%, var(--color-surface)); } }
+@keyframes ov-agent { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+@keyframes ov-spin { to { transform: rotate(360deg); } }
+
+/* Paper figures reuse the Ongoing diagram language, as a card under a paper. */
+.pub-figure-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.pub-figure-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+@media (min-width: 901px) {
+    .pub-figure-wrap.is-open {
+        grid-template-rows: 1fr;
+        opacity: 1;
+    }
+}
+
+.pub-item.pub-expanded + .pub-figure-wrap {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+/* Cards with a figure lead their tag row with a solid "Method" chip. */
+.pub-links .pub-figure-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 1.3rem;
+    padding: 0 7px 0 8px;
+    border: 1px solid var(--pub-accent);
+    border-radius: 3px;
+    color: var(--color-motion-ink);
+    background: var(--pub-accent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--pub-accent) 30%, transparent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.pub-figure-chip svg {
+    width: 9px;
+    height: 6px;
+    animation: pub-chip-bob 1.6s ease-in-out infinite;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pub-figure-chip {
+    font-family: inherit;
+    cursor: pointer;
+    transition: filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pub-figure-chip:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 0 16px color-mix(in srgb, var(--pub-accent) 45%, transparent);
+}
+
+.pub-figure-chip:focus-visible {
+    outline: 2px solid var(--pub-accent);
+    outline-offset: 2px;
+}
+
+.pub-figure-chip[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+    animation: none;
+}
+
+@keyframes pub-chip-bob {
+    0%, 100% { transform: translateY(-1px); }
+    50% { transform: translateY(1.5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pub-figure-chip svg { animation: none; }
+}
+
+@media (max-width: 900px) {
+    .pub-links .pub-figure-chip { display: none; }
+}
+
+.ongoing-visual.pub-figure {
+    max-width: 540px;
+    margin: 0.8rem auto 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+.ongoing-visual .ov-legend {
+    fill: var(--ov-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.ongoing-visual .ov-label-xs { font-size: 10px; }
+.ongoing-visual .ov-fig-label { font-size: 11px; }
+.ongoing-visual .ov-anchor-end { text-anchor: end; }
+.ongoing-visual .ov-anchor-middle { text-anchor: middle; }
+.ongoing-visual .ov-anchor-start { text-anchor: start; }
+.ongoing-visual .ov-glyph-sm { font-size: 10px; }
+.ongoing-visual .ov-ring-static { fill: none; stroke: var(--ov-red); stroke-width: 1.6; }
+.ongoing-visual .ov-op { fill: color-mix(in srgb, var(--ov-red) 12%, transparent); stroke: var(--ov-edge); animation: ov-op 2.4s ease-in-out infinite; }
+
+.ongoing-visual .ov-pick { animation: ov-pick 1.6s ease-in-out infinite; }
+.ongoing-visual .ov-pop { transform-box: fill-box; animation: ov-pop 3s ease-in-out infinite; }
+.ongoing-visual .ov-grow { stroke-dasharray: 40; animation: ov-grow 3s ease-in-out infinite; }
+.ongoing-visual .ov-blink { animation: ov-blink 1.6s ease-in-out infinite; }
+.ongoing-visual .ov-twinkle { transform-box: fill-box; animation: ov-pop 4s ease-in-out infinite; }
+.ongoing-visual .ov-slide { animation: ov-slide 3s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.ongoing-visual .ov-gain { transform-box: fill-box; transform-origin: left; animation: ov-bar-x 3s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.ongoing-visual .ov-swap-a { animation: ov-swap 3.2s ease-in-out infinite; }
+.ongoing-visual .ov-swap-b { animation: ov-swap 3.2s ease-in-out -1.6s infinite; }
+.ongoing-visual .ov-prune { animation: ov-prune 4s ease-in-out infinite; }
+.ongoing-visual .ov-sweep { animation: ov-sweep 2.4s ease-in-out infinite; }
+.ongoing-visual .ov-endorse { transform-box: fill-box; animation: ov-pop 2.4s ease-in-out infinite; }
+
+@keyframes ov-op {
+    0%, 30%, 100% { fill: color-mix(in srgb, var(--ov-red) 12%, transparent); }
+    10%, 22% { fill: color-mix(in srgb, var(--ov-red) 55%, transparent); }
+}
+@keyframes ov-pick { 0%, 100% { stroke-width: 1.5; } 50% { stroke-width: 3; } }
+@keyframes ov-pop { 0%, 30% { transform: scale(0); } 45%, 85% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes ov-grow { 0%, 15% { stroke-dashoffset: 40; } 40%, 100% { stroke-dashoffset: 0; } }
+@keyframes ov-blink { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes ov-slide { 0% { transform: translateX(-10px); opacity: 0; } 30%, 85% { transform: translateX(0); opacity: 1; } 100% { opacity: 0; } }
+@keyframes ov-bar-x { 0% { transform: scaleX(0.1); } 50%, 100% { transform: scaleX(1); } }
+@keyframes ov-swap { 0%, 40% { opacity: 1; } 50%, 90% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes ov-sweep {
+    0%, 100% { fill: var(--color-surface); stroke: var(--ov-champ); }
+    15%, 30% { fill: var(--ov-red); stroke: var(--ov-red); }
+    45% { fill: var(--color-surface); stroke: var(--ov-champ); }
+}
+@keyframes ov-prune { 0%, 50% { opacity: 1; } 75%, 90% { opacity: 0.08; } 100% { opacity: 1; } }
+
+
+
+/* Thesis title: one line on desktop, font size set by JS to fit. */
+.edu-thesis-title.is-fitted {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .ongoing-visual .ov-label { font-size: 15px; }
+    .ongoing-visual .ov-label-sm { font-size: 13px; }
+    .ongoing-visual .ov-fig-label { font-size: 12.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ongoing-visual * {
+        animation: none !important;
+    }
+}
+
+@media print {
+    .ongoing-visual { display: none; }
 }
