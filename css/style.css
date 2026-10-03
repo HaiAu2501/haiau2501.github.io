@@ -3386,6 +3386,40 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
 @keyframes ov-agent { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 @keyframes ov-spin { to { transform: rotate(360deg); } }
 
+/* Short notes under a diagram: what the group is working on. */
+.ongoing-notes {
+    width: 100%;
+    max-width: 540px;
+    margin: 0.1rem auto 0.35rem;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.ongoing-notes li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+.ongoing-notes li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.62em;
+    width: 0.45rem;
+    height: 2px;
+    background: var(--color-link);
+}
+
+/* Without the script the notes stay in the card; keep them out of its row. */
+.ongoing-item > .ongoing-notes {
+    display: none;
+}
+
 /* Paper figures reuse the Ongoing diagram language, as a card under a paper. */
 .pub-figure-wrap {
     display: grid;

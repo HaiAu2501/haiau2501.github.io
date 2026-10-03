@@ -304,6 +304,10 @@ export function initOngoingVisuals() {
         item.before(group);
         group.append(item, figure);
 
+        // Optional notes written inside the card move below the diagram.
+        const notes = item.querySelector('.ongoing-notes');
+        if (notes) group.appendChild(notes);
+
         const svg = figure.firstElementChild;
         if (reduceMotion) {
             svg.pauseAnimations?.();
