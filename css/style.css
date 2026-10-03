@@ -3583,3 +3583,50 @@ body.lineage-mode .lineage-edge:hover .lineage-edge-arrow svg {
 @media print {
     .ongoing-visual { display: none; }
 }
+
+/* About uses alternating text accents without the scroll highlight effect. */
+#about .about-accent-red {
+    color: var(--color-link);
+    font-weight: 600;
+}
+
+#about .about-accent-gold {
+    color: var(--color-motion-champagne-text);
+    font-weight: 600;
+}
+
+/* A quiet frame groups the research paragraphs in About. */
+.about-research {
+    position: relative;
+    --about-frame-inset: 1.25rem;
+    margin: 1.75rem calc(-1 * var(--about-frame-inset) - 1px) 0;
+    padding: 1.5rem var(--about-frame-inset) 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--color-bg-light) 25%, transparent);
+}
+
+.about-research-label {
+    position: absolute;
+    top: 0;
+    left: calc(var(--about-frame-inset) - 0.4rem);
+    transform: translateY(-50%);
+    padding: 0 0.4rem;
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+}
+
+#about .about-research p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 540px) {
+    .about-research {
+        --about-frame-inset: 1rem;
+        padding-block: 1.25rem 1rem;
+    }
+}
